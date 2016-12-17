@@ -1,0 +1,6 @@
+1	Nissan	red	2
+2	Audi	blue	3
+3	BMW	black	1
+4	Lada	green	2
+5	Ford	red	4
+6	Nissan	black	6
