@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public  class UsersDaoFileBasedImpl implements UsersDao {
@@ -22,6 +23,17 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
     @Override
     public boolean save(User user) {
         List<User> userList = findAll();
+        List<Integer> usersId = new ArrayList<>();
+        if (!userList.isEmpty()) {
+            for (User user1 : userList){
+                usersId.add (user1.getId());
+            }
+            Collections.sort(usersId);
+            user.setId(usersId.get(usersId.size()-1)+1);
+        } else {
+            user.setId(1);
+        }
+
         userList.add(user);
         ReadWriteFiles.writeUsersFile(userList);
         return true;
@@ -59,17 +71,20 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
 
     @Override
     public List<User> findAll() {
+        List<User> userList = ReadWriteFiles.readUserFile();
+        for (User user : userList) {
+            user.setListAuto(findAllUsersAuto(user.getId()));
+        }
 
-        return ReadWriteFiles.readUserFile();
+        return userList;
     }
 
     @Override
     public List<Auto> findAllUsersAuto(int id) {
         List<Auto> usersAuto = new ArrayList<>();
-        AutoDao autoDao = new AutoDaoFileBasedImpl();
-        List<Auto> autos = autoDao.findAll();
+        List<Auto> autos = ReadWriteFiles.readAutoFile();
         for (Auto auto : autos) {
-            if (auto.getUser().getId() == id) {
+            if (auto.getUserId() == id) {
                 usersAuto.add(auto);
             }
         }
