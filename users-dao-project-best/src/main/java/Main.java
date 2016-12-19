@@ -25,8 +25,8 @@ public class Main {
         //}
         //Auto auto = autoDao.find(3);
         //System.out.println(auto.getModel());
-        Auto auto1 = new Auto ("Renault", "red", 9);
-        autoDao.save(auto1);
+       // Auto auto1 = new Auto ("Renault", "red", 9);
+      //  autoDao.save(auto1);
         //System.out.println(autoDao.findAll().get(0).getModel());
         //System.out.println(auto.getUser().getName());
         //auto.setUser(user);
