@@ -4,3 +4,7 @@
 4	Lada	green	2
 5	Ford	red	4
 6	Nissan	black	6
+7	Kia	red	4
+3	BMW	black	4
+8	Opel	red	8
+9	Renault	red	9

@@ -1,9 +1,9 @@
-0	Igor	25
-1	Misha	22
-2	Vasya	33
-4	Vitya	25
+4	Misha	22
+6	Vasya	33
+1	Vitya	25
 5	Kostya	28
-6	Kostya	30
+2	Kostya	30
 7	Vika	18
 8	Kolya	44
 9	Petya	37
+10	Sanya	55

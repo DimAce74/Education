@@ -5,8 +5,22 @@ import java.util.List;
 
 public  class UsersDaoFileBasedImpl implements UsersDao {
 
-    static final File USERS_FILE = new File ("users.txt");
 
+    private File userFile;
+    private File autoFile;
+
+    public UsersDaoFileBasedImpl(File userFile, File autoFile) {
+        this.userFile = userFile;
+        this.autoFile = autoFile;
+    }
+
+    public File getUserFile() {
+        return userFile;
+    }
+
+    public File getAutoFile() {
+        return autoFile;
+    }
 
     @Override
     public User find(int id) {
@@ -17,6 +31,9 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
                 user1 =  user;
             }
         }
+        if (user1 == null){
+            throw new IllegalAccessError("User with id="+id+" not found!");
+        }
         return user1;
     }
 
@@ -26,16 +43,20 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
         List<Integer> usersId = new ArrayList<>();
         if (!userList.isEmpty()) {
             for (User user1 : userList){
-                usersId.add (user1.getId());
+                if (user1.getId()==user.getId()){
+                    System.out.println("User with id="+user.getId()+" already exist!");
+                    return false;
+                } else {
+                    usersId.add (user1.getId());
+                }
             }
             Collections.sort(usersId);
             user.setId(usersId.get(usersId.size()-1)+1);
         } else {
             user.setId(1);
         }
-
         userList.add(user);
-        ReadWriteFiles.writeUsersFile(userList);
+        ReadWriteFiles.writeUsersFile(userList, this.userFile);
         return true;
     }
 
@@ -48,9 +69,13 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
                 userToUpdate = user1;
             }
         }
+        if (userToUpdate == null){
+            System.out.println("User "+user.getName()+" not found!");
+            return false;
+        }
         userList.remove(userToUpdate);
         userList.add(user);
-        ReadWriteFiles.writeUsersFile(userList);
+        ReadWriteFiles.writeUsersFile(userList, this.userFile);
         return true;
     }
 
@@ -62,16 +87,21 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
             if (user1.getId() == id) {
                 user = user1;
             }
+
+        }
+        if (user == null){
+            System.out.println("User with id="+id+" not found!");
+            return false;
         }
         userList.remove(user);
 
-        ReadWriteFiles.writeUsersFile(userList);
+        ReadWriteFiles.writeUsersFile(userList, this.userFile);
         return true;
     }
 
     @Override
     public List<User> findAll() {
-        List<User> userList = ReadWriteFiles.readUserFile();
+        List<User> userList = ReadWriteFiles.readUserFile(this.userFile);
         for (User user : userList) {
             user.setListAuto(findAllUsersAuto(user.getId()));
         }
@@ -82,7 +112,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
     @Override
     public List<Auto> findAllUsersAuto(int id) {
         List<Auto> usersAuto = new ArrayList<>();
-        List<Auto> autos = ReadWriteFiles.readAutoFile();
+        List<Auto> autos = ReadWriteFiles.readAutoFile(this.autoFile);
         for (Auto auto : autos) {
             if (auto.getUserId() == id) {
                 usersAuto.add(auto);

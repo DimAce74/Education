@@ -1,13 +1,14 @@
+import java.io.File;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        UsersDao usersDao = new UsersDaoFileBasedImpl();
-        AutoDao autoDao = new AutoDaoFileBasedImpl();
+        //UsersDao usersDao = new UsersDaoFileBasedImpl(new File("users.txt"), new File("auto.txt"));
+        //AutoDao autoDao = new AutoDaoFileBasedImpl();
 
         //System.out.println(usersDao.find(2).getName());
 
-        //User user = new User ( "Vika", 18);
+        //User user = new User ( "Sanya", 55);
         //usersDao.save(user);
         //for (User user1 : usersDao.findAll()) {
         //    System.out.println(user1.getName() + " ");

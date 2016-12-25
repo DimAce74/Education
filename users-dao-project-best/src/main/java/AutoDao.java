@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.List;
 
 public interface AutoDao {
@@ -6,4 +7,5 @@ public interface AutoDao {
     boolean update(Auto auto);
     boolean delete(int id);
     List<Auto> findAll();
+    File getAutoFile();
 }

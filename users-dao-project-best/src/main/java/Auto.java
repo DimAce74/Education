@@ -8,8 +8,16 @@ public class Auto {
     private String color;
     private int userId;
 
+    public Auto(int id, String model, String color, int userId) {
+        this.id = id;
+        this.model = model;
+        this.color = color;
+        this.userId = userId;
+    }
+
     public Auto(String model, String color, int userId) {
         this.model = model;
+
         this.color = color;
         this.userId = userId;
     }

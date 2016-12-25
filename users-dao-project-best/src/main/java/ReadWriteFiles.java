@@ -6,10 +6,10 @@ public class ReadWriteFiles {
 
     private static final String SEPARATOR = "\t";
 
-    public static List<User> readUserFile () {
+    public static List<User> readUserFile (File userFile) {
         List<User> userList = new ArrayList<>();
         String userAsString;
-        try (BufferedReader reader = new BufferedReader(new FileReader(UsersDaoFileBasedImpl.USERS_FILE))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(userFile))){
                 while ((userAsString=reader.readLine())!=null) {
                 String[] userParams = userAsString.split(SEPARATOR);
                 User user = new User (userParams[1], Integer.parseInt(userParams[2]));
@@ -23,10 +23,10 @@ public class ReadWriteFiles {
     }
 
     //Auto(int id, String model, String color, User user)
-    public static List<Auto> readAutoFile () {
+    public static List<Auto> readAutoFile (File autoFile) {
         List<Auto> autoList = new ArrayList<>();
         String autoAsString;
-        try (BufferedReader reader = new BufferedReader(new FileReader(AutoDaoFileBasedImpl.AUTO_FILE))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(autoFile))){
                 while ((autoAsString=reader.readLine())!=null) {
                 String[] autoParams = autoAsString.split(SEPARATOR);
                 Auto auto = new Auto (autoParams[1], autoParams[2],Integer.parseInt(autoParams[3]));
@@ -40,8 +40,8 @@ public class ReadWriteFiles {
 
     }
 
-    public static void writeUsersFile(List<User> userList){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(UsersDaoFileBasedImpl.USERS_FILE))){
+    public static void writeUsersFile(List<User> userList, File userFile){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile))){
             for (User user : userList) {
                 String userAsString = user.getId()+SEPARATOR + user.getName() + SEPARATOR + user.getAge();
                 writer.write(userAsString);
@@ -51,8 +51,8 @@ public class ReadWriteFiles {
                 throw new IllegalAccessError();
         }
     }
-    public static void writeAutosFile(List<Auto> autos){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(AutoDaoFileBasedImpl.AUTO_FILE))){
+    public static void writeAutosFile(List<Auto> autos, File autoFile){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(autoFile))){
             for (Auto auto : autos) {
                 String autoAsString = auto.getId() + SEPARATOR + auto.getModel() +SEPARATOR+ auto.getColor() + SEPARATOR+ auto.getUserId();
                 writer.write(autoAsString);
@@ -63,26 +63,4 @@ public class ReadWriteFiles {
         }
     }
 
-
-
-/** Test Main
-    public static void main(String[] args) {
-        List<User> users = new ArrayList<>();
-        List<Auto> autos = new ArrayList<>();
-        users = readUserFile(new File ("users.txt"));
-        autos = readAutoFile(new File("auto.txt"));
-        for (User user : users) {
-            System.out.println(user.getId() + user.getName() + user.getAge());
-        }
-        for (Auto auto : autos) {
-            System.out.println(auto.getId() + auto.getModel() + auto.getColor() + auto.getUser().getId());
-        }
-
-        users.add(new User(6, "Kostya", 30));
-        writeUsersFile(users);
-        autos.add(new Auto(6, "Nissan", "black", User.getUserFromId(users, 6)));
-        writeAutosFile(autos);
-
-    }
-*/
 }

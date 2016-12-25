@@ -5,17 +5,28 @@ import java.util.List;
 
 
 public class AutoDaoFileBasedImpl implements AutoDao {
-    static final File AUTO_FILE = new File ("auto.txt");
 
+    private File autoFile;
+
+    public File getAutoFile() {
+        return autoFile;
+    }
+
+    public AutoDaoFileBasedImpl(File autoFile) {
+        this.autoFile = autoFile;
+    }
 
     @Override
     public Auto find(int id) {
-        List<Auto> autoList = ReadWriteFiles.readAutoFile();
+        List<Auto> autoList = ReadWriteFiles.readAutoFile(this.autoFile);
         Auto auto1 = null;
         for (Auto auto : autoList) {
             if (auto.getId() == id) {
                 auto1 =  auto;
             }
+        }
+        if (auto1 == null) {
+            throw new IllegalAccessError("Auto with id="+id+" not found!");
         }
         return auto1;
     }
@@ -23,33 +34,43 @@ public class AutoDaoFileBasedImpl implements AutoDao {
     @Override
     public boolean save(Auto auto) {
         List<Auto> autoList = findAll();
-        if (auto.getId()==0){
-            List<Integer> autosId = new ArrayList<>();
-            if (!autoList.isEmpty()) {
-                for (Auto auto1 : autoList){
+        List<Integer> autosId = new ArrayList<>();
+        if (!autoList.isEmpty()) {
+            for (Auto auto1 : autoList){
+                if (auto.getId()==auto1.getId()) {
+                    System.out.println("Auto with id="+auto.getId()+" already exists!");
+                    return false;
+                }else{
                     autosId.add (auto1.getId());
                 }
-                Collections.sort(autosId);
-                auto.setId(autosId.get(autosId.size()-1)+1);
             }
+            Collections.sort(autosId);
+            auto.setId(autosId.get(autosId.size()-1)+1);
+        }else{
+            auto.setId(1);
         }
+
         autoList.add(auto);
-        ReadWriteFiles.writeAutosFile(autoList);
+        ReadWriteFiles.writeAutosFile(autoList, this.autoFile);
         return true;
     }
 
     @Override
     public boolean update(Auto auto) {
-        Auto oldAuto = null;
+        Auto autoToUpdate = null;
         List<Auto> autoList = findAll();
         for (Auto auto1 : autoList){
             if (auto.getId()==auto1.getId()){
-                oldAuto = auto;
+                autoToUpdate = auto;
             }
         }
-        autoList.remove(oldAuto);
+        if (autoToUpdate==null) {
+            System.out.println("Auto "+auto.getModel()+" not found!");
+            return false;
+        }
+        autoList.remove(autoToUpdate);
         autoList.add(auto);
-        ReadWriteFiles.writeAutosFile(autoList);
+        ReadWriteFiles.writeAutosFile(autoList, this.autoFile);
         return true;
     }
 
@@ -62,20 +83,18 @@ public class AutoDaoFileBasedImpl implements AutoDao {
                 auto = auto1;
             }
         }
+        if (auto == null) {
+            System.out.println("Auto with id=" + id + " not found!");
+            return false;
+        }
         autoList.remove(auto);
-        ReadWriteFiles.writeAutosFile(autoList);
+        ReadWriteFiles.writeAutosFile(autoList, this.autoFile);
         return true;
     }
 
     @Override
     public List<Auto> findAll() {
-        return ReadWriteFiles.readAutoFile();
+        return ReadWriteFiles.readAutoFile(this.autoFile);
     }
-/**
-    @Override
-    public User findUserFromId(int id) {
-        UsersDao usersDao = new UsersDaoFileBasedImpl();
-        return usersDao.find(id);
-    }
- */
+
 }
