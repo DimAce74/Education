@@ -5,6 +5,11 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import ru.itis.Auto;
+import ru.itis.User;
+import ru.itis.dao.UsersDao;
+import ru.itis.dao.files.ReadWriteFiles;
+import ru.itis.dao.files.UsersDaoFileBasedImpl;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,8 +42,8 @@ public class UsersDaoFileBasedImplTest {
         usersDao = new UsersDaoFileBasedImpl(USER_FILE, AUTO_FILE);
 
         PowerMockito.mockStatic(ReadWriteFiles.class);
-        PowerMockito.when(ReadWriteFiles.readUserFile(usersDao.getUserFile())).thenReturn(USERS_LIST);
-        PowerMockito.when(ReadWriteFiles.readAutoFile(usersDao.getAutoFile())).thenReturn(AUTO_LIST);
+        PowerMockito.when(ReadWriteFiles.readUserFile(USER_FILE)).thenReturn(USERS_LIST);
+        PowerMockito.when(ReadWriteFiles.readAutoFile( AUTO_FILE)).thenReturn(AUTO_LIST);
         PowerMockito.doNothing().when(ReadWriteFiles.class, "writeUsersFile", any(), any());
         PowerMockito.doNothing().when(ReadWriteFiles.class, "writeAutosFile", any(), any());
     }

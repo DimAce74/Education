@@ -1,3 +1,7 @@
+package ru.itis.dao;
+
+import ru.itis.Auto;
+
 import java.io.File;
 import java.util.List;
 
@@ -7,5 +11,4 @@ public interface AutoDao {
     boolean update(Auto auto);
     boolean delete(int id);
     List<Auto> findAll();
-    File getAutoFile();
 }

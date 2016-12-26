@@ -1,10 +1,21 @@
 
 public class MyLinkedList<Integer> {
     private Node head;
+
+    public Node getLast() {
+        return last;
+    }
+
+    public void setLast(Node last) {
+        this.last = last;
+    }
+
+    private Node last;
     private int size;
 
     public MyLinkedList() {
         this.head = null;
+        this.last = null;
         this.size = 0;
     }
 
@@ -35,8 +46,13 @@ public class MyLinkedList<Integer> {
     public boolean add(int i){
         Node nod = new Node();
         nod.setValue(i);
-        nod.setNext(head);
-        head=nod;
+        if (head==null){
+            head=nod;
+            last=nod;
+        }else{
+            last.setNext(nod);
+            last = nod;
+        }
         size++;
         return true;
     }

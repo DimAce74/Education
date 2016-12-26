@@ -1,6 +1,4 @@
-/**
- * Created by dimac on 20.12.2016.
- */
+
 public class Sorter {
     public static void sort(MyLinkedList list) {
         MyLinkedList[] array = new MyLinkedList[32];
@@ -13,6 +11,12 @@ public class Sorter {
 
 
         while (list.getHead()!=null) {
+            for (int i =0; i<array[0].size(); i++){
+                System.out.print(array[0].find(i).getValue()+" ");
+                System.out.println();
+            }
+
+
             Node head = list.getHead();
             //System.out.println(head.getValue());
             Node next = list.getHead().getNext();
@@ -26,10 +30,17 @@ public class Sorter {
             head = next.getNext();
             list.setHead(head);
             currBasket++;
-            while (array[currBasket-1]!=null&&array[currBasket-1].size() == array[currBasket-2].size()) {
+            while (array[currBasket-1]!=null&&
+                    currBasket-2>=0&&
+                    array[currBasket-1].size() == array[currBasket-2].size()) {
                 array[currBasket-2] = merge(array[currBasket-2], array[currBasket-1]);
                 currBasket--;
+                array[currBasket] = new MyLinkedList();
             }
+        }
+
+        while (array[currBasket-1]!=null&&currBasket-2>=0) {
+
         }
 
     }
@@ -45,10 +56,10 @@ public class Sorter {
             } else if (two==null) {
                 result.add(one.getValue());
                 one = one.getNext();
-            } else if (one.getValue()>=two.getValue()) {
+            } else if (one.getValue()<=two.getValue()) {
                 result.add(two.getValue());
                 two = two.getNext();
-            } else if (one.getValue()<two.getValue()) {
+            } else if (one.getValue()>two.getValue()) {
                 result.add(one.getValue());
                 one = one.getNext();
             }

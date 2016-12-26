@@ -1,3 +1,8 @@
+package ru.itis.dao.files;
+
+import ru.itis.Auto;
+import ru.itis.dao.AutoDao;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +31,7 @@ public class AutoDaoFileBasedImpl implements AutoDao {
             }
         }
         if (auto1 == null) {
-            throw new IllegalAccessError("Auto with id="+id+" not found!");
+            throw new IllegalAccessError("ru.itis.Auto with id="+id+" not found!");
         }
         return auto1;
     }
@@ -38,7 +43,7 @@ public class AutoDaoFileBasedImpl implements AutoDao {
         if (!autoList.isEmpty()) {
             for (Auto auto1 : autoList){
                 if (auto.getId()==auto1.getId()) {
-                    System.out.println("Auto with id="+auto.getId()+" already exists!");
+                    System.out.println("ru.itis.Auto with id="+auto.getId()+" already exists!");
                     return false;
                 }else{
                     autosId.add (auto1.getId());
@@ -65,7 +70,7 @@ public class AutoDaoFileBasedImpl implements AutoDao {
             }
         }
         if (autoToUpdate==null) {
-            System.out.println("Auto "+auto.getModel()+" not found!");
+            System.out.println("ru.itis.Auto "+auto.getModel()+" not found!");
             return false;
         }
         autoList.remove(autoToUpdate);
@@ -84,7 +89,7 @@ public class AutoDaoFileBasedImpl implements AutoDao {
             }
         }
         if (auto == null) {
-            System.out.println("Auto with id=" + id + " not found!");
+            System.out.println("ru.itis.Auto with id=" + id + " not found!");
             return false;
         }
         autoList.remove(auto);

@@ -1,3 +1,8 @@
+package ru.itis.dao.files;
+
+import ru.itis.Auto;
+import ru.itis.User;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +17,7 @@ public class ReadWriteFiles {
         try (BufferedReader reader = new BufferedReader(new FileReader(userFile))){
                 while ((userAsString=reader.readLine())!=null) {
                 String[] userParams = userAsString.split(SEPARATOR);
-                User user = new User (userParams[1], Integer.parseInt(userParams[2]));
+                User user = new User(userParams[1], Integer.parseInt(userParams[2]));
                 user.setId(Integer.parseInt(userParams[0]));
                 userList.add(user);
             }
@@ -22,7 +27,7 @@ public class ReadWriteFiles {
         return userList;
     }
 
-    //Auto(int id, String model, String color, User user)
+    //ru.itis.Auto(int id, String model, String color, ru.itis.User user)
     public static List<Auto> readAutoFile (File autoFile) {
         List<Auto> autoList = new ArrayList<>();
         String autoAsString;

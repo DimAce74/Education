@@ -1,7 +1,7 @@
-import javafx.collections.transformation.SortedList;
+package ru.itis;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import ru.itis.Auto;
+
 import java.util.List;
 
 public class User {
@@ -22,7 +22,7 @@ public class User {
     }
 
 
-    void setId (int id) {
+    public void setId (int id) {
         this.id = id;
     }
 

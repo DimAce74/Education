@@ -5,6 +5,10 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import ru.itis.Auto;
+import ru.itis.dao.AutoDao;
+import ru.itis.dao.files.AutoDaoFileBasedImpl;
+import ru.itis.dao.files.ReadWriteFiles;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,23 +27,22 @@ public class AutoDaoFileBasedImplTest {
     private static final Auto AUDI = new Auto (2, "Audi", "blue", 1);
     private static final Auto LADA = new Auto (3, "Lada", "black", 2);
 
-    private static List<Auto> AUTO_LIST = new ArrayList<>(Arrays.asList(NISSAN, AUDI));
+    private static List<Auto> autoList = new ArrayList<>(Arrays.asList(NISSAN, AUDI));
 
     AutoDao autoDao;
 
     @Before
     public void setUp() throws Exception {
         autoDao = new AutoDaoFileBasedImpl(AUTO_FILE);
-
         PowerMockito.mockStatic(ReadWriteFiles.class);
-        PowerMockito.when(ReadWriteFiles.readAutoFile(autoDao.getAutoFile())).thenReturn(AUTO_LIST);
+        PowerMockito.when(ReadWriteFiles.readAutoFile(AUTO_FILE)).thenReturn(autoList);
         PowerMockito.doNothing().when(ReadWriteFiles.class, "writeAutosFile", any(), any());
 
     }
 
     @After
     public void tearDown() throws Exception {
-        AUTO_LIST = new ArrayList<>(Arrays.asList(NISSAN, AUDI));
+        autoList = new ArrayList<>(Arrays.asList(NISSAN, AUDI));
     }
 
     @Test
@@ -54,8 +57,7 @@ public class AutoDaoFileBasedImplTest {
 
     @Test
     public void testSaveAutoNotExists() throws Exception {
-        Auto auto = new Auto ("Lada", "blue", 1);
-        assertTrue(autoDao.save(auto));
+        assertTrue(autoDao.save(LADA));
         PowerMockito.verifyStatic();
         ReadWriteFiles.writeAutosFile(any(), any());
     }

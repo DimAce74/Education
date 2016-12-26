@@ -1,3 +1,10 @@
+package ru.itis.dao.files;
+
+import ru.itis.Auto;
+import ru.itis.User;
+import ru.itis.dao.UsersDao;
+import ru.itis.dao.files.ReadWriteFiles;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +39,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
             }
         }
         if (user1 == null){
-            throw new IllegalAccessError("User with id="+id+" not found!");
+            throw new IllegalAccessError("ru.itis.User with id="+id+" not found!");
         }
         return user1;
     }
@@ -44,7 +51,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
         if (!userList.isEmpty()) {
             for (User user1 : userList){
                 if (user1.getId()==user.getId()){
-                    System.out.println("User with id="+user.getId()+" already exist!");
+                    System.out.println("ru.itis.User with id="+user.getId()+" already exist!");
                     return false;
                 } else {
                     usersId.add (user1.getId());
@@ -70,7 +77,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
             }
         }
         if (userToUpdate == null){
-            System.out.println("User "+user.getName()+" not found!");
+            System.out.println("ru.itis.User "+user.getName()+" not found!");
             return false;
         }
         userList.remove(userToUpdate);
@@ -90,7 +97,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
 
         }
         if (user == null){
-            System.out.println("User with id="+id+" not found!");
+            System.out.println("ru.itis.User with id="+id+" not found!");
             return false;
         }
         userList.remove(user);

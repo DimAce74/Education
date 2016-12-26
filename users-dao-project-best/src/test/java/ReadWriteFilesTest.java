@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.TemporaryFolder;
+import ru.itis.Auto;
+import ru.itis.User;
+import ru.itis.dao.files.ReadWriteFiles;
 
 import static org.junit.Assert.*;
 
