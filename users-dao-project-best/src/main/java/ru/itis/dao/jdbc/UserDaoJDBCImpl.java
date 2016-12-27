@@ -68,10 +68,8 @@ public class UserDaoJDBCImpl implements UsersDao{
     @Override
     public boolean delete(int id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("WITH t AS (DELETE FROM group_user WHERE id="+id+") "+
-                    "DELETE FROM auto WHERE user_id="+id);
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM group_user WHERE id="+id);
             preparedStatement.execute();
-
         } catch (SQLException e) {
             throw new IllegalAccessError("User not deleted!");
         }
@@ -104,7 +102,7 @@ public class UserDaoJDBCImpl implements UsersDao{
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet;
-            resultSet = statement.executeQuery("SELECT id,model,color FROM auto WHERE user_id="+id);
+            resultSet = statement.executeQuery("SELECT id, model, color FROM auto WHERE user_id="+id);
             List<Auto> autoList = new ArrayList<>();
             while (resultSet.next()) {
                 int autoId = resultSet.getInt("id");
