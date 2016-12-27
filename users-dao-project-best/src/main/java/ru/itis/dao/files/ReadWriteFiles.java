@@ -27,7 +27,6 @@ public class ReadWriteFiles {
         return userList;
     }
 
-    //ru.itis.Auto(int id, String model, String color, ru.itis.User user)
     public static List<Auto> readAutoFile (File autoFile) {
         List<Auto> autoList = new ArrayList<>();
         String autoAsString;

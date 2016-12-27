@@ -85,9 +85,9 @@ public class UsersDaoFileBasedImplTest {
         PowerMockito.verifyStatic();
         ReadWriteFiles.writeUsersFile(any(), any());
     }
-    @Test
+    @Test(expected = UserNotFoundException.class)
     public void testUpdateUserNotExists() throws Exception {
-        assertFalse(usersDao.update(KOSTYA));
+        usersDao.update(KOSTYA);
     }
 
     @Test
@@ -96,9 +96,9 @@ public class UsersDaoFileBasedImplTest {
         PowerMockito.verifyStatic();
         ReadWriteFiles.writeUsersFile(any(), any());
     }
-    @Test
+    @Test(expected = UserNotFoundException.class)
     public void testDeleteUserNotExist() throws Exception {
-        assertFalse(usersDao.delete(4));
+        usersDao.delete(4);
     }
 
     @Test

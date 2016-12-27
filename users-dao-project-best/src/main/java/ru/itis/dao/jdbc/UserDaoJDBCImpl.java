@@ -95,7 +95,7 @@ public class UserDaoJDBCImpl implements UsersDao{
             return userList;
 
         } catch (SQLException e) {
-            throw new IllegalAccessError("UserList not ctreated!");
+            throw new IllegalAccessError("UserList do not ctreated!");
         }
     }
 
@@ -117,7 +117,7 @@ public class UserDaoJDBCImpl implements UsersDao{
             return autoList;
 
         } catch (SQLException e) {
-            throw new UserNotFoundException();
+            throw new IllegalAccessError("AutoList do not created!");
         }
      }
 }

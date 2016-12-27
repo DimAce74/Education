@@ -57,53 +57,5 @@ public class Main {
         //System.out.println(usersDao.findAllUsersAuto(4).get(0).getModel());
 
         //usersDao.delete(4);
-
-
-
-
-        //ru.itis.dao.UsersDao usersDao = new ru.itis.dao.files.UsersDaoFileBasedImpl(new File("users.txt"), new File("auto.txt"));
-        //ru.itis.dao.AutoDao autoDao = new ru.itis.dao.files.AutoDaoFileBasedImpl();
-
-        //System.out.println(usersDao.find(2).getName());
-
-        //ru.itis.User user = new ru.itis.User ( "Sanya", 55);
-        //usersDao.save(user);
-        //for (User user1 : usersDao.findAll()) {
-        //System.out.println(user1.getName() + " ");
-        //}
-        //User user = usersDao.find(1);
-        //List<Auto> autoList = user.getListAuto();
-        //for (Auto auto : usersDao.findAllUsersAuto(1)) {
-        //    System.out.println(auto.getModel());
-        //}
-        //user.setAge(122);
-        //usersDao.update(user);
-        //usersDao.delete(3);
-        //for (ru.itis.User user1 : usersDao.findAll()) {
-        //    System.out.print(user1.getName() + " ");
-        //}
-        /**
-        Auto auto = autoDao.find(3);
-        System.out.println(auto.getModel());
-        Auto auto1 = new Auto (4, "Renault", "red", 1);
-        //autoDao.save(auto1);
-        System.out.println(autoDao.find(4).getModel());
-        //System.out.println(auto.getUser().getName());
-        auto1.setColor("green");
-        autoDao.update(auto1);
-        System.out.println(autoDao.find(4).getColor());
-        autoDao.delete(4);
-        List<Auto> autoList = autoDao.findAll();
-        for( Auto auto2: autoList){
-            System.out.println(auto2.getModel());
-        }
-        //System.out.println(auto.getUser().getName());
-        //ru.itis.User user = new ru.itis.User ("Petya", 37);
-        //System.out.println(user.getId());
-        //System.out.println(user.getListAuto());
-        //usersDao.save(user);
-        //System.out.println(user.getId());
-        //System.out.println(user.getListAuto().get(0).getModel());
-*/
     }
 }

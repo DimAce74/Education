@@ -70,8 +70,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
             }
         }
         if (userToUpdate == null){
-            System.out.println("User "+user.getName()+" not found!");
-            return false;
+            throw new UserNotFoundException();
         }
         userList.remove(userToUpdate);
         userList.add(user);
@@ -90,8 +89,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
 
         }
         if (user == null){
-            System.out.println("User with id="+id+" not found!");
-            return false;
+            throw new UserNotFoundException();
         }
         userList.remove(user);
 
