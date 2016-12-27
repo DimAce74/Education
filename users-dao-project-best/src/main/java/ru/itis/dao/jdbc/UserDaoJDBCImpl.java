@@ -2,6 +2,7 @@ package ru.itis.dao.jdbc;
 
 
 import ru.itis.Auto;
+import ru.itis.Exceptions.UserNotFoundException;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
 
@@ -24,26 +25,24 @@ public class UserDaoJDBCImpl implements UsersDao{
             Statement statement = connection.createStatement();
             ResultSet resultSet;
             resultSet = statement.executeQuery("SELECT * FROM group_user WHERE id="+id);
-
             resultSet.next();
             int userId = resultSet.getInt("id");
-            String userName = resultSet.getString("name");
-            int userAge = resultSet.getInt("age");
+            String userName = resultSet.getString("user_name");
+            int userAge = resultSet.getInt("user_age");
             User user = new User(userId, userName, userAge);
             return user;
 
         } catch (SQLException e) {
-            throw new IllegalAccessError("User with id="+id+" not found!");
+            throw new UserNotFoundException();
         }
     }
 
     @Override
     public boolean save(User user) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO group_user(id, name, age) VALUES (?, ?, ?)");
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setString(2, user.getName());
-            preparedStatement.setInt(3, user.getAge());
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO group_user(user_name, user_age) VALUES (?, ?)");
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getAge());
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -54,9 +53,11 @@ public class UserDaoJDBCImpl implements UsersDao{
 
     @Override
     public boolean update(User user) {
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE group_user SET name='" +
-                    user.getName()+"', age="+user.getAge()+" WHERE id="+user.getId());
+            find(user.getId());
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE group_user SET user_name='" +
+                    user.getName()+"', user_age="+user.getAge()+" WHERE id="+user.getId());
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -68,6 +69,7 @@ public class UserDaoJDBCImpl implements UsersDao{
     @Override
     public boolean delete(int id) {
         try {
+            find(id);
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM group_user WHERE id="+id);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -85,8 +87,8 @@ public class UserDaoJDBCImpl implements UsersDao{
             List<User> userList = new ArrayList<>();
             while (resultSet.next()) {
                 int userId = resultSet.getInt("id");
-                String userName = resultSet.getString("name");
-                int userAge = resultSet.getInt("age");
+                String userName = resultSet.getString("user_name");
+                int userAge = resultSet.getInt("user_age");
                 User user = new User(userId, userName, userAge);
                 userList.add(user);
             }
@@ -100,21 +102,22 @@ public class UserDaoJDBCImpl implements UsersDao{
     @Override
     public List<Auto> findAllUsersAuto(int id) {
         try {
+            find(id);
             Statement statement = connection.createStatement();
             ResultSet resultSet;
-            resultSet = statement.executeQuery("SELECT id, model, color FROM auto WHERE user_id="+id);
+            resultSet = statement.executeQuery("SELECT auto_id, auto_model, auto_color FROM auto WHERE user_id="+id);
             List<Auto> autoList = new ArrayList<>();
             while (resultSet.next()) {
-                int autoId = resultSet.getInt("id");
-                String model = resultSet.getString("model");
-                String color = resultSet.getString("color");
+                int autoId = resultSet.getInt("auto_id");
+                String model = resultSet.getString("auto_model");
+                String color = resultSet.getString("auto_color");
                 Auto auto = new Auto(autoId, model, color, id);
                 autoList.add(auto);
             }
             return autoList;
 
         } catch (SQLException e) {
-            throw new IllegalAccessError("AutoList not ctreated!");
+            throw new UserNotFoundException();
         }
      }
 }

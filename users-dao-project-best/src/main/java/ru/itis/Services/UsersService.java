@@ -1,6 +1,7 @@
 package ru.itis.Services;
 
 import ru.itis.Auto;
+import ru.itis.Exceptions.UserNotFoundException;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
 
@@ -18,7 +19,7 @@ public class UsersService {
         try{
             User user = usersDao.find(i);
             return user.getName();
-        } catch (IllegalAccessError e) {
+        } catch (UserNotFoundException e) {
             String notFound = "User with id="+i+" not founded!";
             return notFound;
         }
@@ -27,13 +28,18 @@ public class UsersService {
     public String ShowModelAllUsersAutoById(int i) {
         try{
             List<Auto> autoList = usersDao.findAllUsersAuto(i);
-            String result="";
-            for(Auto auto:autoList){
-                result += auto.getModel()+" ";
+            if (autoList.size()==0){
+                String autoNotExists = "User with id=" + i + " do not use Auto!";
+                return autoNotExists;
+            } else {
+                String result = "";
+                for (Auto auto : autoList) {
+                    result += auto.getModel() + " ";
+                }
+                return result.trim();
             }
-            return result.trim();
-        }catch (IllegalAccessError e){
-            String notFound ="User with id="+i+" do not use Auto!";
+        }catch (UserNotFoundException e){
+            String notFound ="User with id="+i+" not founded!";
             return notFound;
         }
     }

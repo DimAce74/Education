@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 import ru.itis.Auto;
+import ru.itis.Exceptions.UserNotFoundException;
 import ru.itis.Services.UsersService;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
@@ -34,10 +35,10 @@ public class UsersServiceTest {
         when(usersDao.findAll()).thenReturn(USERS_LIST);
         when(usersDao.find(1)).thenReturn(MISHA);
         when(usersDao.find(3)).thenReturn(KOSTYA);
-        doThrow(new IllegalAccessError()).when(usersDao).find(4);
+        doThrow(new UserNotFoundException()).when(usersDao).find(4);
         when(usersDao.findAllUsersAuto(1)).thenReturn(MISHA_AUTO_LIST);
-        doThrow(new IllegalAccessError()).when(usersDao).findAllUsersAuto(3);
-        doThrow(new IllegalAccessError()).when(usersDao).findAllUsersAuto(4);
+        when(usersDao.findAllUsersAuto(3)).thenReturn(new ArrayList<Auto>());
+        doThrow(new UserNotFoundException()).when(usersDao).findAllUsersAuto(4);
 
     }
 

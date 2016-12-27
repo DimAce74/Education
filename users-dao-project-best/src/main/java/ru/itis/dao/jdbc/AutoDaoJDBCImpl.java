@@ -20,12 +20,12 @@ public class AutoDaoJDBCImpl implements AutoDao {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet;
-            resultSet = statement.executeQuery("SELECT * FROM auto WHERE id="+id);
+            resultSet = statement.executeQuery("SELECT * FROM auto WHERE auto_id="+id);
 
             resultSet.next();
-            int autoId = resultSet.getInt("id");
-            String model = resultSet.getString("model");
-            String color = resultSet.getString("color");
+            int autoId = resultSet.getInt("auto_id");
+            String model = resultSet.getString("auto_model");
+            String color = resultSet.getString("auto_color");
             int userId = resultSet.getInt("user_id");
 
             Auto auto = new Auto(autoId, model, color, userId);
@@ -39,11 +39,10 @@ public class AutoDaoJDBCImpl implements AutoDao {
     @Override
     public boolean save(Auto auto) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO auto(id, model, color, user_id) VALUES (?, ?, ?, ?)");
-            preparedStatement.setInt(1, auto.getId());
-            preparedStatement.setString(2, auto.getModel());
-            preparedStatement.setString(3, auto.getColor());
-            preparedStatement.setInt(4, auto.getUserId());
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO auto(auto_model, auto_color, user_id) VALUES (?, ?, ?)");
+            preparedStatement.setString(1, auto.getModel());
+            preparedStatement.setString(2, auto.getColor());
+            preparedStatement.setInt(3, auto.getUserId());
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -55,8 +54,8 @@ public class AutoDaoJDBCImpl implements AutoDao {
     @Override
     public boolean update(Auto auto) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE auto SET model='" +
-                    auto.getModel()+"', color='"+auto.getColor()+"', user_id="+auto.getUserId()+" WHERE id="+auto.getId());
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE auto SET auto_model='" +
+                    auto.getModel()+"', auto_color='"+auto.getColor()+"', user_id="+auto.getUserId()+" WHERE auto_id="+auto.getId());
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -68,7 +67,7 @@ public class AutoDaoJDBCImpl implements AutoDao {
     @Override
     public boolean delete(int id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM auto WHERE id="+id);
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM auto WHERE auto_id="+id);
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -85,9 +84,9 @@ public class AutoDaoJDBCImpl implements AutoDao {
             resultSet = statement.executeQuery("SELECT * FROM auto");
             List<Auto> autoList = new ArrayList<>();
             while (resultSet.next()) {
-                int autoId = resultSet.getInt("id");
-                String model = resultSet.getString("model");
-                String color = resultSet.getString("color");
+                int autoId = resultSet.getInt("auto_id");
+                String model = resultSet.getString("auto_model");
+                String color = resultSet.getString("auto_color");
                 int userId = resultSet.getInt("user_id");
                 Auto auto = new Auto(autoId, model, color, userId);
                 autoList.add(auto);

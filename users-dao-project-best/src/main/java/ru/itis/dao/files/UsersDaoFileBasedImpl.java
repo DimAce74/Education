@@ -1,6 +1,7 @@
 package ru.itis.dao.files;
 
 import ru.itis.Auto;
+import ru.itis.Exceptions.UserNotFoundException;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
 import ru.itis.dao.files.ReadWriteFiles;
@@ -21,14 +22,6 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
         this.autoFile = autoFile;
     }
 
-    public File getUserFile() {
-        return userFile;
-    }
-
-    public File getAutoFile() {
-        return autoFile;
-    }
-
     @Override
     public User find(int id) {
         List<User> userList = findAll();
@@ -39,7 +32,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
             }
         }
         if (user1 == null){
-            throw new IllegalAccessError("ru.itis.User with id="+id+" not found!");
+            throw new UserNotFoundException();
         }
         return user1;
     }
@@ -51,7 +44,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
         if (!userList.isEmpty()) {
             for (User user1 : userList){
                 if (user1.getId()==user.getId()){
-                    System.out.println("ru.itis.User with id="+user.getId()+" already exist!");
+                    System.out.println("User with id="+user.getId()+" already exist!");
                     return false;
                 } else {
                     usersId.add (user1.getId());
@@ -77,7 +70,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
             }
         }
         if (userToUpdate == null){
-            System.out.println("ru.itis.User "+user.getName()+" not found!");
+            System.out.println("User "+user.getName()+" not found!");
             return false;
         }
         userList.remove(userToUpdate);
@@ -97,7 +90,7 @@ public  class UsersDaoFileBasedImpl implements UsersDao {
 
         }
         if (user == null){
-            System.out.println("ru.itis.User with id="+id+" not found!");
+            System.out.println("User with id="+id+" not found!");
             return false;
         }
         userList.remove(user);
