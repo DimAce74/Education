@@ -2,7 +2,7 @@ package ru.itis.dao.jdbc;
 
 
 import ru.itis.Auto;
-import ru.itis.Exceptions.UserNotFoundException;
+import ru.itis.exceptions.UserNotFoundException;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
 
@@ -30,6 +30,18 @@ public class UserDaoJDBCImpl implements UsersDao{
             String userName = resultSet.getString("user_name");
             int userAge = resultSet.getInt("user_age");
             User user = new User(userId, userName, userAge);
+            resultSet = statement.executeQuery("SELECT * FROM auto WHERE user_id="+id);
+            List<Auto> autoList = new ArrayList<>();
+            while (resultSet.next()) {
+                int autoId = resultSet.getInt("auto_id");
+                String model = resultSet.getString("auto_model");
+                String color = resultSet.getString("auto_color");
+                int userId1 = resultSet.getInt("user_id");
+                Auto auto = new Auto(autoId, model, color, userId1);
+                autoList.add(auto);
+            }
+            user.setListAuto(autoList);
+
             return user;
 
         } catch (SQLException e) {

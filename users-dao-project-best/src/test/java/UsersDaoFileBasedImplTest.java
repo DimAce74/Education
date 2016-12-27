@@ -6,7 +6,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import ru.itis.Auto;
-import ru.itis.Exceptions.UserNotFoundException;
+import ru.itis.exceptions.UserNotFoundException;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
 import ru.itis.dao.files.ReadWriteFiles;

@@ -1,4 +1,4 @@
-package ru.itis.Exceptions;
+package ru.itis.exceptions;
 
 
 public class UserNotFoundException extends RuntimeException {

@@ -1,7 +1,8 @@
 package ru.itis;
 
 
-import ru.itis.Services.UsersService;
+import ru.itis.factories.UserDaoFactory;
+import ru.itis.services.UsersService;
 import ru.itis.dao.UsersDao;
 import ru.itis.dao.jdbc.UserDaoJDBCImpl;
 
@@ -13,29 +14,9 @@ import java.sql.DriverManager;
 
 public class App {
     public static void main(String[] args) {
-        Connection connection = null;
-        String url = "jdbc:postgresql://localhost:5432/auto_user";
-        String login = "postgres";
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Enter password please:");
 
-        String pass = null;
-
-        try {
-            pass = reader.readLine();
-        } catch (IOException e) {
-            throw new IllegalAccessError("Invalid password!");
-        }
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(url, login, pass);
-        }catch (Exception e) {
-            throw new IllegalAccessError("Invalid password!");
-        }
-
-        UsersDao usersDao = new UserDaoJDBCImpl(connection);
+        UsersDao usersDao = UserDaoFactory.getInstance().getUsersDao();
         UsersService usersService = new UsersService(usersDao);
 
         System.out.println("Что хочешь найти?");
@@ -67,7 +48,6 @@ public class App {
 
         try {
             reader.close();
-            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

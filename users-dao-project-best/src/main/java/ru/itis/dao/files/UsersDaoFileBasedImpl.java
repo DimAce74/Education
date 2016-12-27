@@ -1,10 +1,9 @@
 package ru.itis.dao.files;
 
 import ru.itis.Auto;
-import ru.itis.Exceptions.UserNotFoundException;
+import ru.itis.exceptions.UserNotFoundException;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
-import ru.itis.dao.files.ReadWriteFiles;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package ru.itis.Services;
+package ru.itis.services;
 
 import ru.itis.Auto;
-import ru.itis.Exceptions.UserNotFoundException;
+import ru.itis.exceptions.UserNotFoundException;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
 
@@ -41,6 +41,15 @@ public class UsersService {
         }catch (UserNotFoundException e){
             String notFound ="User with id="+i+" not founded!";
             return notFound;
+        }
+    }
+
+    public boolean isRegistered (int id) {
+        try {
+            usersDao.find(id);
+            return true;
+        }catch (UserNotFoundException e) {
+            return false;
         }
     }
 }

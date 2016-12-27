@@ -1,8 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 import ru.itis.Auto;
-import ru.itis.Exceptions.UserNotFoundException;
-import ru.itis.Services.UsersService;
+import ru.itis.exceptions.UserNotFoundException;
+import ru.itis.services.UsersService;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
 
