@@ -1,7 +1,7 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.itis.Auto;
+import ru.itis.models.Auto;
 import ru.itis.dao.AutoDao;
 import ru.itis.dao.files.AutoDaoFileBasedImpl;
 import ru.itis.exceptions.AutoNotFoundException;

@@ -1,6 +1,4 @@
-package ru.itis;
-
-import ru.itis.Auto;
+package ru.itis.models;
 
 import java.util.List;
 

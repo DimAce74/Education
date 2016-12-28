@@ -1,6 +1,6 @@
 package ru.itis.dao.files;
 
-import ru.itis.Auto;
+import ru.itis.models.Auto;
 import ru.itis.dao.AutoDao;
 import ru.itis.exceptions.AutoNotFoundException;
 import ru.itis.exceptions.SavingAutoException;

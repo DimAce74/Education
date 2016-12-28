@@ -1,8 +1,8 @@
 package ru.itis.services;
 
-import ru.itis.Auto;
+import ru.itis.models.Auto;
 import ru.itis.exceptions.UserNotFoundException;
-import ru.itis.User;
+import ru.itis.models.User;
 import ru.itis.dao.UsersDao;
 
 import java.util.List;

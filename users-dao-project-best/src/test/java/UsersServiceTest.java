@@ -1,9 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
-import ru.itis.Auto;
+import ru.itis.models.Auto;
 import ru.itis.exceptions.UserNotFoundException;
 import ru.itis.services.UsersService;
-import ru.itis.User;
+import ru.itis.models.User;
 import ru.itis.dao.UsersDao;
 
 import java.util.ArrayList;
@@ -17,11 +17,9 @@ public class UsersServiceTest {
     private static final User MISHA = new User(1, "Misha", 22);
     private static final User VASYA = new User(2, "Vasya", 33);
     private static final User KOSTYA = new User(3, "Kostya", 44);
-    private static final Auto NISSAN = new Auto (1, "Nissan", "red", 2);
     private static final Auto AUDI = new Auto (2, "Audi", "blue", 1);
 
     private static List<User> USERS_LIST = new ArrayList<>(Arrays.asList(MISHA, VASYA, KOSTYA));
-    private static List<Auto> AUTO_LIST = new ArrayList<>(Arrays.asList(NISSAN, AUDI));
     private static List<Auto> MISHA_AUTO_LIST = new ArrayList<>(Arrays.asList(AUDI));
 
     UsersDao usersDao;

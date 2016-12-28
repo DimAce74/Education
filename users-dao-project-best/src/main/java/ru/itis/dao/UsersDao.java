@@ -1,6 +1,6 @@
 package ru.itis.dao;
 
-import ru.itis.User;
+import ru.itis.models.User;
 
 import java.util.List;
 

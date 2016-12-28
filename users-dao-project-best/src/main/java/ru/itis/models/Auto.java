@@ -1,8 +1,4 @@
-package ru.itis;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+package ru.itis.models;
 
 public class Auto {
     private int id;

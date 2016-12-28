@@ -1,10 +1,10 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.itis.Auto;
+import ru.itis.models.Auto;
 import ru.itis.exceptions.SavingUserException;
 import ru.itis.exceptions.UserNotFoundException;
-import ru.itis.User;
+import ru.itis.models.User;
 import ru.itis.dao.UsersDao;
 import ru.itis.dao.files.UsersDaoFileBasedImpl;
 import java.io.BufferedWriter;

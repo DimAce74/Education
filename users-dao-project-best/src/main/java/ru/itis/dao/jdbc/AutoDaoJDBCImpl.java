@@ -1,6 +1,6 @@
 package ru.itis.dao.jdbc;
 
-import ru.itis.Auto;
+import ru.itis.models.Auto;
 import ru.itis.dao.AutoDao;
 
 import java.sql.*;

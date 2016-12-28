@@ -1,10 +1,10 @@
 package ru.itis.dao.jdbc;
 
 
-import ru.itis.Auto;
+import ru.itis.models.Auto;
 import ru.itis.exceptions.SavingUserException;
 import ru.itis.exceptions.UserNotFoundException;
-import ru.itis.User;
+import ru.itis.models.User;
 import ru.itis.dao.UsersDao;
 
 import java.sql.*;
