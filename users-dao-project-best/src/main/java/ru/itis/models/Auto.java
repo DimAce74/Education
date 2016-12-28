@@ -1,4 +1,5 @@
 package ru.itis.models;
+//TODO: сделать Builder
 
 public class Auto {
     private int id;

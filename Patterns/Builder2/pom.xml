@@ -8,9 +8,10 @@
     <artifactId>Builder2</artifactId>
     <version>0.1</version>
 
-    <build>
-        <defaultGoal>install</defaultGoal>
-    </build>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
 
 </project>

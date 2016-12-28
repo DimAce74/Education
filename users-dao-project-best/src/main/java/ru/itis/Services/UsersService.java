@@ -7,7 +7,7 @@ import ru.itis.dao.UsersDao;
 
 import java.util.List;
 
-
+//TODO: Сделать добавление пользователя
 public class UsersService {
     private UsersDao usersDao;
 
@@ -20,7 +20,7 @@ public class UsersService {
             User user = usersDao.find(i);
             return user.getName();
         } catch (UserNotFoundException e) {
-            String notFound = "User with id="+i+" not founded!";
+            String notFound = "Пользователь с id="+i+" не найден!";
             return notFound;
         }
     }
@@ -30,7 +30,7 @@ public class UsersService {
             User user = usersDao.find(i);
             List<Auto> autoList = user.getListAuto();
             if (autoList.size()==0){
-                String autoNotExists = "User with id=" + i + " do not use Auto!";
+                String autoNotExists = user.getName()+" не пользуется автомобилем!";
                 return autoNotExists;
             } else {
                 String result = "";
@@ -40,7 +40,7 @@ public class UsersService {
                 return result.trim();
             }
         }catch (UserNotFoundException e){
-            String notFound ="User with id="+i+" not founded!";
+            String notFound ="Пользователь с id="+i+" не найден!";
             return notFound;
         }
     }

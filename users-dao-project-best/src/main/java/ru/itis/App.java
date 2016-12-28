@@ -4,13 +4,10 @@ package ru.itis;
 import ru.itis.factories.UserDaoFactory;
 import ru.itis.services.UsersService;
 import ru.itis.dao.UsersDao;
-import ru.itis.dao.jdbc.UserDaoJDBCImpl;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
+//TODO: Сделать добавление пользователя
 
 public class App {
     public static void main(String[] args) {

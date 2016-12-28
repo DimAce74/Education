@@ -11,6 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: сделать тесты
 
 public class UserDaoJDBCImpl implements UsersDao{
 

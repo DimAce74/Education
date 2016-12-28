@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class UsersServiceTest {
+
+
     private static final User MISHA = new User(1, "Misha", 22);
     private static final User VASYA = new User(2, "Vasya", 33);
     private static final User KOSTYA = new User(3, "Kostya", 44);
@@ -49,7 +51,7 @@ public class UsersServiceTest {
     @Test
     public void testShowNameUsersByIdIfNotExists() throws Exception {
         String actual = usersService.ShowNameUsersById(4);
-        String expected = "User with id=4 not founded!";
+        String expected = "Пользователь с id=4 не найден!";
         assertEquals(expected, actual);
     }
 
@@ -62,13 +64,23 @@ public class UsersServiceTest {
     @Test
     public void testShowAllUsersAutoByIdIfUserNotExists() throws Exception {
         String actual = usersService.ShowModelAllUsersAutoById(4);
-        String expected = "User with id=4 not founded!";
+        String expected = "Пользователь с id=4 не найден!";
         assertEquals(expected, actual);
     }
     @Test
     public void testShowAllUsersAutoByIdIfAutoNotExists() throws Exception {
         String actual = usersService.ShowModelAllUsersAutoById(3);
-        String expected = "User with id=3 do not use Auto!";
+        String expected = "Kostya не пользуется автомобилем!";
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testIsRegisteredUserExists() throws Exception {
+        assertTrue(usersService.isRegistered(1));
+    }
+
+    @Test
+    public void testIsRegisteredUserNotExists() throws Exception {
+        assertFalse(usersService.isRegistered(4));
     }
 }
