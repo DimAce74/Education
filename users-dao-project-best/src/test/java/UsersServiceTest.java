@@ -32,13 +32,12 @@ public class UsersServiceTest {
         usersDao = mock (UsersDao.class);
         usersService = new UsersService(usersDao);
 
+        MISHA.setListAuto(MISHA_AUTO_LIST);
+        KOSTYA.setListAuto(new ArrayList<>());
         when(usersDao.findAll()).thenReturn(USERS_LIST);
         when(usersDao.find(1)).thenReturn(MISHA);
         when(usersDao.find(3)).thenReturn(KOSTYA);
         doThrow(new UserNotFoundException()).when(usersDao).find(4);
-        when(usersDao.findAllUsersAuto(1)).thenReturn(MISHA_AUTO_LIST);
-        when(usersDao.findAllUsersAuto(3)).thenReturn(new ArrayList<Auto>());
-        doThrow(new UserNotFoundException()).when(usersDao).findAllUsersAuto(4);
 
     }
 

@@ -2,6 +2,7 @@ package ru.itis.dao.jdbc;
 
 
 import ru.itis.Auto;
+import ru.itis.exceptions.SavingUserException;
 import ru.itis.exceptions.UserNotFoundException;
 import ru.itis.User;
 import ru.itis.dao.UsersDao;
@@ -58,7 +59,7 @@ public class UserDaoJDBCImpl implements UsersDao{
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            throw new IllegalAccessError("User not saved!");
+            throw new SavingUserException();
         }
         return true;
     }
@@ -111,7 +112,6 @@ public class UserDaoJDBCImpl implements UsersDao{
         }
     }
 
-    @Override
     public List<Auto> findAllUsersAuto(int id) {
         try {
             find(id);

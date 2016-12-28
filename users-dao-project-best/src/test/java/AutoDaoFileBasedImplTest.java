@@ -1,31 +1,29 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import ru.itis.Auto;
 import ru.itis.dao.AutoDao;
 import ru.itis.dao.files.AutoDaoFileBasedImpl;
-import ru.itis.dao.files.ReadWriteFiles;
+import ru.itis.exceptions.AutoNotFoundException;
+import ru.itis.exceptions.SavingAutoException;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(ReadWriteFiles.class)
 public class AutoDaoFileBasedImplTest {
 
     private static final File AUTO_FILE = new File ("D:\\Development\\Education\\users-dao-project-best\\src\\test\\autoTest.txt");
     private static final Auto NISSAN = new Auto (1, "Nissan", "red", 2);
     private static final Auto AUDI = new Auto (2, "Audi", "blue", 1);
     private static final Auto LADA = new Auto (3, "Lada", "black", 2);
+    private static final String SEPARATOR = "\t";
+
 
     private static List<Auto> autoList = new ArrayList<>(Arrays.asList(NISSAN, AUDI));
 
@@ -34,15 +32,21 @@ public class AutoDaoFileBasedImplTest {
     @Before
     public void setUp() throws Exception {
         autoDao = new AutoDaoFileBasedImpl(AUTO_FILE);
-        PowerMockito.mockStatic(ReadWriteFiles.class);
-        PowerMockito.when(ReadWriteFiles.readAutoFile(AUTO_FILE)).thenReturn(autoList);
-        PowerMockito.doNothing().when(ReadWriteFiles.class, "writeAutosFile", any(), any());
 
     }
 
     @After
     public void tearDown() throws Exception {
         autoList = new ArrayList<>(Arrays.asList(NISSAN, AUDI));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(AUTO_FILE))){
+            for (Auto auto2 : autoList) {
+                String autoAsString = auto2.getId() + SEPARATOR + auto2.getModel() +SEPARATOR+ auto2.getColor() + SEPARATOR+ auto2.getUserId();
+                writer.write(autoAsString);
+                writer.write(System.lineSeparator());
+            }
+        } catch (Exception e) {
+            throw new IllegalAccessError();
+        }
     }
 
     @Test
@@ -50,53 +54,48 @@ public class AutoDaoFileBasedImplTest {
         Auto auto = autoDao.find(1);
         assertEquals(NISSAN, auto);
     }
-    @Test(expected = IllegalAccessError.class)
+    @Test(expected = AutoNotFoundException.class)
     public void testFindAutoNotExists() throws Exception {
-        Auto auto = autoDao.find(4);
+        autoDao.find(4);
     }
 
     @Test
     public void testSaveAutoNotExists() throws Exception {
         assertTrue(autoDao.save(LADA));
-        PowerMockito.verifyStatic();
-        ReadWriteFiles.writeAutosFile(any(), any());
+
     }
 
-    @Test
+    @Test(expected = SavingAutoException.class)
     public void testSaveAutoExists() throws Exception {
-        Auto auto = new Auto (1,"Lada", "blue", 1);
-        assertFalse(autoDao.save(auto));
+        autoDao.save(NISSAN);
     }
 
     @Test
     public void testUpdateAutoExists() throws Exception {
         NISSAN.setColor("black");
-        assertTrue(autoDao.update(NISSAN));
-        PowerMockito.verifyStatic();
-        ReadWriteFiles.writeAutosFile(any(), any());
+        assertTrue(NISSAN.getColor().equals("black"));
+
     }
 
-    @Test
+    @Test(expected = AutoNotFoundException.class)
     public void testUpdateAutoNotExists() throws Exception {
-        assertFalse(autoDao.update(LADA));
+        autoDao.update(LADA);
     }
 
     @Test
     public void testDeleteAutoExists() throws Exception {
-        assertTrue(autoDao.delete(1));
-        PowerMockito.verifyStatic();
-        ReadWriteFiles.writeAutosFile(any(), any());
+        autoDao.delete(1);
+        assertTrue(autoDao.findAll().size()==1);
     }
-    @Test
+    @Test(expected = AutoNotFoundException.class)
     public void testDeleteAutoNotExists() throws Exception {
-        assertFalse(autoDao.delete(4));
+        autoDao.delete(4);
     }
 
     @Test
     public void testFindAll() throws Exception {
-        List<Auto> autoList = autoDao.findAll();
-        PowerMockito.verifyStatic();
-        ReadWriteFiles.readAutoFile(any());
+        List<Auto> autoList1 = autoDao.findAll();
+        assertEquals(autoList, autoList1);
     }
 
 }

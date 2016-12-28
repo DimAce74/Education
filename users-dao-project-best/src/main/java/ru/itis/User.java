@@ -53,5 +53,22 @@ public class User {
         return listAuto;
     }
 
-
+    public boolean equals (Object obj) {
+        if (obj == null) return false;
+        if (this == obj) return true;
+        if (this.getClass() == obj.getClass()) {
+            User user = (User) obj;
+            if (this.getId() == user.getId() && (this.getName().equals(user.getName()) && this.getAge() == (user.getAge()) && (this.getListAuto().equals(user.getListAuto())))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public int hashCode(){
+        int hash=1;
+        hash = hash * 31 + Integer.valueOf(id).hashCode();
+        hash = hash * 31 + (name == null ? 0 : name.hashCode());
+        hash = hash * 31 + (age == 0 ? 0 : Integer.valueOf(age).hashCode());
+        return hash;
+    }
 }

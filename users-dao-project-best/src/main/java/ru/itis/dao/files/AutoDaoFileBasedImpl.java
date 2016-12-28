@@ -2,8 +2,10 @@ package ru.itis.dao.files;
 
 import ru.itis.Auto;
 import ru.itis.dao.AutoDao;
+import ru.itis.exceptions.AutoNotFoundException;
+import ru.itis.exceptions.SavingAutoException;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,10 +14,7 @@ import java.util.List;
 public class AutoDaoFileBasedImpl implements AutoDao {
 
     private File autoFile;
-
-    public File getAutoFile() {
-        return autoFile;
-    }
+    private static final String SEPARATOR = "\t";
 
     public AutoDaoFileBasedImpl(File autoFile) {
         this.autoFile = autoFile;
@@ -23,7 +22,18 @@ public class AutoDaoFileBasedImpl implements AutoDao {
 
     @Override
     public Auto find(int id) {
-        List<Auto> autoList = ReadWriteFiles.readAutoFile(this.autoFile);
+        List<Auto> autoList = new ArrayList<>();
+        String autoAsString;
+        try (BufferedReader reader = new BufferedReader(new FileReader(autoFile))){
+            while ((autoAsString=reader.readLine())!=null) {
+                String[] autoParams = autoAsString.split(SEPARATOR);
+                Auto auto = new Auto (autoParams[1], autoParams[2],Integer.parseInt(autoParams[3]));
+                auto.setId(Integer.parseInt(autoParams[0]));
+                autoList.add(auto);
+            }
+        } catch (Exception e) {
+            throw new IllegalAccessError();
+        }
         Auto auto1 = null;
         for (Auto auto : autoList) {
             if (auto.getId() == id) {
@@ -31,7 +41,7 @@ public class AutoDaoFileBasedImpl implements AutoDao {
             }
         }
         if (auto1 == null) {
-            throw new IllegalAccessError("ru.itis.Auto with id="+id+" not found!");
+            throw new AutoNotFoundException();
         }
         return auto1;
     }
@@ -43,8 +53,7 @@ public class AutoDaoFileBasedImpl implements AutoDao {
         if (!autoList.isEmpty()) {
             for (Auto auto1 : autoList){
                 if (auto.getId()==auto1.getId()) {
-                    System.out.println("ru.itis.Auto with id="+auto.getId()+" already exists!");
-                    return false;
+                    throw new SavingAutoException();
                 }else{
                     autosId.add (auto1.getId());
                 }
@@ -54,9 +63,16 @@ public class AutoDaoFileBasedImpl implements AutoDao {
         }else{
             auto.setId(1);
         }
-
         autoList.add(auto);
-        ReadWriteFiles.writeAutosFile(autoList, this.autoFile);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(autoFile))){
+            for (Auto auto2 : autoList) {
+                String autoAsString = auto2.getId() + SEPARATOR + auto2.getModel() +SEPARATOR+ auto2.getColor() + SEPARATOR+ auto2.getUserId();
+                writer.write(autoAsString);
+                writer.write(System.lineSeparator());
+            }
+        } catch (Exception e) {
+            throw new IllegalAccessError();
+        }
         return true;
     }
 
@@ -70,12 +86,19 @@ public class AutoDaoFileBasedImpl implements AutoDao {
             }
         }
         if (autoToUpdate==null) {
-            System.out.println("ru.itis.Auto "+auto.getModel()+" not found!");
-            return false;
+            throw new AutoNotFoundException();
         }
         autoList.remove(autoToUpdate);
         autoList.add(auto);
-        ReadWriteFiles.writeAutosFile(autoList, this.autoFile);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(autoFile))){
+            for (Auto auto1 : autoList) {
+                String autoAsString = auto1.getId() + SEPARATOR + auto1.getModel() +SEPARATOR+ auto1.getColor() + SEPARATOR+ auto1.getUserId();
+                writer.write(autoAsString);
+                writer.write(System.lineSeparator());
+            }
+        } catch (Exception e) {
+            throw new IllegalAccessError();
+        }
         return true;
     }
 
@@ -89,17 +112,35 @@ public class AutoDaoFileBasedImpl implements AutoDao {
             }
         }
         if (auto == null) {
-            System.out.println("ru.itis.Auto with id=" + id + " not found!");
-            return false;
+            throw new AutoNotFoundException();
         }
         autoList.remove(auto);
-        ReadWriteFiles.writeAutosFile(autoList, this.autoFile);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(autoFile))){
+            for (Auto auto1 : autoList) {
+                String autoAsString = auto1.getId() + SEPARATOR + auto1.getModel() +SEPARATOR+ auto1.getColor() + SEPARATOR+ auto1.getUserId();
+                writer.write(autoAsString);
+                writer.write(System.lineSeparator());
+            }
+        } catch (Exception e) {
+            throw new IllegalAccessError();
+        }
         return true;
     }
 
     @Override
     public List<Auto> findAll() {
-        return ReadWriteFiles.readAutoFile(this.autoFile);
+        List<Auto> autoList = new ArrayList<>();
+        String autoAsString;
+        try (BufferedReader reader = new BufferedReader(new FileReader(autoFile))){
+            while ((autoAsString=reader.readLine())!=null) {
+                String[] autoParams = autoAsString.split(SEPARATOR);
+                Auto auto = new Auto (autoParams[1], autoParams[2],Integer.parseInt(autoParams[3]));
+                auto.setId(Integer.parseInt(autoParams[0]));
+                autoList.add(auto);
+            }
+        } catch (Exception e) {
+            throw new IllegalAccessError();
+        }
+        return autoList;
     }
-
 }

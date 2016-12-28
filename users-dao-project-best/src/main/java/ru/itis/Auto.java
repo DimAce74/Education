@@ -56,4 +56,24 @@ public class Auto {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    public boolean equals (Object obj) {
+        if (obj == null) return false;
+        if (this == obj) return true;
+        if (this.getClass() == obj.getClass()) {
+            Auto auto = (Auto) obj;
+            if (this.getId() == auto.getId() && (this.getModel().equals(auto.getModel())) && (this.getColor().equals(auto.getColor())) && this.getUserId() == (auto.getUserId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public int hashCode(){
+        int hash=1;
+        hash = hash * 31 + Integer.valueOf(id).hashCode();
+        hash = hash * 31 + (model == null ? 0 : model.hashCode());
+        hash = hash * 31 + (color == null ? 0 : color.hashCode());
+        hash = hash * 31 + (userId == 0 ? 0 : Integer.valueOf(userId).hashCode());
+        return hash;
+    }
 }

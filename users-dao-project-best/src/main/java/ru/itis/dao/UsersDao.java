@@ -1,9 +1,7 @@
 package ru.itis.dao;
 
-import ru.itis.Auto;
 import ru.itis.User;
 
-import java.io.File;
 import java.util.List;
 
 
@@ -13,5 +11,4 @@ public interface UsersDao {
     boolean update(User user);
     boolean delete(int id);
     List<User> findAll();
-    List<Auto> findAllUsersAuto(int id);
 }

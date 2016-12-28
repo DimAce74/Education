@@ -27,7 +27,8 @@ public class UsersService {
 
     public String ShowModelAllUsersAutoById(int i) {
         try{
-            List<Auto> autoList = usersDao.findAllUsersAuto(i);
+            User user = usersDao.find(i);
+            List<Auto> autoList = user.getListAuto();
             if (autoList.size()==0){
                 String autoNotExists = "User with id=" + i + " do not use Auto!";
                 return autoNotExists;
