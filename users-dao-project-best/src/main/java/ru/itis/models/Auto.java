@@ -5,22 +5,21 @@ public class Auto {
     private int id;
     private String model;
     private String color;
-    private int userId;
+    private User user;
 
-    public Auto(int id, String model, String color, int userId) {
+    public Auto(int id, String model, String color) {
         this.id = id;
         this.model = model;
         this.color = color;
-        this.userId = userId;
     }
 
-    public Auto(String model, String color, int userId) {
-        this.model = model;
-
-        this.color = color;
-        this.userId = userId;
+    public User getUser() {
+        return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
     public int getId() {
         return id;
     }
@@ -46,20 +45,13 @@ public class Auto {
         this.color = color;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public boolean equals (Object obj) {
         if (obj == null) return false;
         if (this == obj) return true;
         if (this.getClass() == obj.getClass()) {
             Auto auto = (Auto) obj;
-            if (this.getId() == auto.getId() && (this.getModel().equals(auto.getModel())) && (this.getColor().equals(auto.getColor())) && this.getUserId() == (auto.getUserId())) {
+            if (this.getId() == auto.getId() && (this.getModel().equals(auto.getModel())) &&
+                    (this.getColor().equals(auto.getColor())) && this.getUser().equals(auto.getUser())) {
                 return true;
             }
         }
@@ -70,7 +62,7 @@ public class Auto {
         hash = hash * 31 + Integer.valueOf(id).hashCode();
         hash = hash * 31 + (model == null ? 0 : model.hashCode());
         hash = hash * 31 + (color == null ? 0 : color.hashCode());
-        hash = hash * 31 + (userId == 0 ? 0 : Integer.valueOf(userId).hashCode());
+        hash = hash * 31 + user.hashCode();
         return hash;
     }
 }

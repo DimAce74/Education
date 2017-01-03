@@ -20,6 +20,12 @@ public class User {
         this.age = age;
     }
 
+    public User(int id, String name, int age, List<Auto> listAuto) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.listAuto = listAuto;
+    }
 
     public void setId (int id) {
         this.id = id;
@@ -69,5 +75,10 @@ public class User {
         hash = hash * 31 + (name == null ? 0 : name.hashCode());
         hash = hash * 31 + (age == 0 ? 0 : Integer.valueOf(age).hashCode());
         return hash;
+    }
+
+    public void addAuto(Auto auto) {
+        List<Auto> autoList = this.getListAuto();
+        autoList.add(auto);
     }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
 public class AutoDaoFileBasedImpl implements AutoDao {
 
     private File autoFile;
@@ -144,3 +144,4 @@ public class AutoDaoFileBasedImpl implements AutoDao {
         return autoList;
     }
 }
+*/

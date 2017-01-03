@@ -6,7 +6,7 @@ import ru.itis.dao.AutoDao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
 //TODO: сделать тесты
 public class AutoDaoJDBCImpl implements AutoDao {
     private Connection connection;
@@ -26,9 +26,8 @@ public class AutoDaoJDBCImpl implements AutoDao {
             int autoId = resultSet.getInt("auto_id");
             String model = resultSet.getString("auto_model");
             String color = resultSet.getString("auto_color");
-            int userId = resultSet.getInt("user_id");
 
-            Auto auto = new Auto(autoId, model, color, userId);
+            Auto auto = new Auto(autoId, model, color);
             return auto;
 
         } catch (SQLException e) {
@@ -98,3 +97,4 @@ public class AutoDaoJDBCImpl implements AutoDao {
         }
     }
 }
+*/
