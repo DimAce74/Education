@@ -4,22 +4,22 @@ package ru.itis.dao.jdbc;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import ru.itis.models.Auto;
-import ru.itis.exceptions.SavingUserException;
-import ru.itis.exceptions.UserNotFoundException;
-import ru.itis.models.User;
 import ru.itis.dao.UsersDao;
+import ru.itis.exceptions.UserNotFoundException;
+import ru.itis.models.Auto;
+import ru.itis.models.User;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO: сделать тесты
 
-public class UserDaoJDBCImpl implements UsersDao{
+public class UserDaoJDBCImpl implements UsersDao {
 
     // language=SQL
     private static final String SQL_SELECT_USER_BY_ID ="SELECT * FROM group_user WHERE id = ?";
@@ -127,7 +127,7 @@ public class UserDaoJDBCImpl implements UsersDao{
         return userList;
     }
 
-    class AutoInternal extends Auto{
+    class AutoInternal extends Auto {
         private int userId;
 
         public int getUserId() {
