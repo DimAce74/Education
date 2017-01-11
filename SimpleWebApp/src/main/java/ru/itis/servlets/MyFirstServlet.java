@@ -38,9 +38,6 @@ public class MyFirstServlet extends HttpServlet {
             pw.println("<td>" + user.getAge()+"</td>");
             pw.println("<td>" + user.getListAuto().size()+"</td>");
             pw.println("<tr>");
-
         }
-
-
     }
 }
