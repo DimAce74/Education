@@ -8,6 +8,9 @@ public class User {
     private int age;
     private List<Auto> listAuto;
 
+    public User() {
+    }
+
     public User(int id, String name, int age) {
         this.id = id;
         this.name = name;

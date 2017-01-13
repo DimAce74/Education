@@ -1,7 +1,6 @@
 package ru.itis.servlets;
 
-import ru.itis.dao.UsersDao;
-import ru.itis.factories.UserDaoFactory;
+import ru.itis.factories.UsersServiceFactory;
 import ru.itis.models.User;
 import ru.itis.services.UsersService;
 
@@ -17,8 +16,7 @@ import java.util.List;
 
 @WebServlet(name = "MyFirstServlet")
 public class MyFirstServlet extends HttpServlet {
-    UsersDao usersDao = UserDaoFactory.getInstance().getUsersDao();
-    UsersService usersService = new UsersService(usersDao);
+    UsersService usersService = UsersServiceFactory.getInstance().getUsersService();
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
         List<User> userList = usersService.findAllUsers();

@@ -24,6 +24,10 @@ public class UsersService {
         }
     }
 
+    public List<Auto> showUsersAutoById(int id){
+        return usersDao.find(id).getListAuto();
+    }
+
     public String showModelAllUsersAutoById(int i) {
         try{
             User user = usersDao.find(i);
@@ -53,8 +57,14 @@ public class UsersService {
         }
     }
 
-
     public List<User> findAllUsers(){
         return usersDao.findAll();
+    }
+
+    public User findUser (int id) { return usersDao.find(id);}
+
+    public boolean updateUser (User user) {
+        usersDao.update(user);
+        return true;
     }
 }

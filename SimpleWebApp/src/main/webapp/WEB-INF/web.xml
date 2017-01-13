@@ -17,4 +17,44 @@
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>showUsers</servlet-name>
+        <servlet-class>ru.itis.servlets.ShowUsersServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>showUsers</servlet-name>
+        <url-pattern>/showUsers</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>showAuto</servlet-name>
+        <servlet-class>ru.itis.servlets.ShowAutoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>showAuto</servlet-name>
+        <url-pattern>/showAuto</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>addAuto</servlet-name>
+        <servlet-class>ru.itis.servlets.AddAutoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>addAuto</servlet-name>
+        <url-pattern>/addAuto</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>updateUser</servlet-name>
+        <servlet-class>ru.itis.servlets.UpdateUserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>updateUser</servlet-name>
+        <url-pattern>/updateUser</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -6,10 +6,26 @@ public class Auto {
     private String color;
     private User user;
 
+    public Auto(int id, String model, String color, User user) {
+        this.id = id;
+        this.model = model;
+        this.color = color;
+        this.user = user;
+    }
+
+    public Auto(String model, String color, User user) {
+        this.model = model;
+        this.color = color;
+        this.user = user;
+    }
+
     public Auto(int id, String model, String color) {
         this.id = id;
         this.model = model;
         this.color = color;
+    }
+
+    public Auto() {
     }
 
     public User getUser() {

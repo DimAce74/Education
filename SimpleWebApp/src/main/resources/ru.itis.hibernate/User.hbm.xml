@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ru.itis.models.User" table="group_user" catalog="public">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+
+        <property name="name" column="user_name"/>
+        <property name="age" column="user_age"/>
+
+        <bag name="listAuto" fetch="select">
+            <key>
+                <column name="user_id"/>
+            </key>
+            <one-to-many class="ru.itis.models.Auto"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

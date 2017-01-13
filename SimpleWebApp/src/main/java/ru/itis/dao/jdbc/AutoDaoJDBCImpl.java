@@ -1,93 +1,85 @@
 package ru.itis.dao.jdbc;
 
-/**
-public class AutoDaoJDBCImpl implements AutoDao {
-    private Connection connection;
 
-    public AutoDaoJDBCImpl(Connection connection) {
-        this.connection = connection;
+import org.hibernate.Session;
+import org.springframework.jdbc.core.JdbcTemplate;
+import ru.itis.dao.AutoDao;
+import ru.itis.hibernate.HibernateConnector;
+import ru.itis.models.Auto;
+
+import javax.sql.DataSource;
+import java.sql.Types;
+import java.util.List;
+
+@SuppressWarnings("JpaQlInspection")
+public class AutoDaoJDBCImpl implements AutoDao {
+
+    // language=SQL
+    private static final String SQL_INSERT_NEW_AUTO ="INSERT INTO auto(auto_model, auto_color, user_id) VALUES (?, ?, ?)";
+    // language=SQL
+    private static final String SQL_UPDATE_AUTO ="UPDATE auto SET auto_model=?, auto_color=?, user_id=?  WHERE auto_id=?";
+    // language=SQL
+    private static final String SQL_DELETE_AUTO_BY_ID ="DELETE FROM auto WHERE auto_id=?";
+
+    private JdbcTemplate template;
+    private Session session;
+
+    public AutoDaoJDBCImpl(DataSource dataSource) {
+        this.template = new JdbcTemplate(dataSource);
     }
 
     @Override
     public Auto find(int id) {
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet;
-            resultSet = statement.executeQuery("SELECT * FROM auto WHERE auto_id="+id);
+        this.session = HibernateConnector.getConnector().getSession();
+        session.beginTransaction();
 
-            resultSet.next();
-            int autoId = resultSet.getInt("auto_id");
-            String model = resultSet.getString("auto_model");
-            String color = resultSet.getString("auto_color");
-
-            Auto auto = new Auto(autoId, model, color);
-            return auto;
-
-        } catch (SQLException e) {
-            throw new IllegalAccessError("Auto with id="+id+" not found!");
-        }
+        Auto auto =  session.createQuery ("from Auto where id = :autoId", Auto.class)
+                .setParameter("autoId", id).getSingleResult();
+        session.getTransaction().commit();
+        return auto;
     }
 
     @Override
     public boolean save(Auto auto) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO auto(auto_model, auto_color, user_id) VALUES (?, ?, ?)");
-            preparedStatement.setString(1, auto.getModel());
-            preparedStatement.setString(2, auto.getColor());
-            preparedStatement.setInt(3, auto.getUserId());
-            preparedStatement.execute();
-
-        } catch (SQLException e) {
-            throw new IllegalAccessError("Auto not saved!");
+            Object[] params = new Object[] {auto.getModel(), auto.getColor(), auto.getUser().getId()};
+            int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
+            int rows = template.update(SQL_INSERT_NEW_AUTO, params, types);
+            if (rows==1) {
+                return true;
+            }
+            return false;
         }
-        return true;
-    }
+
 
     @Override
     public boolean update(Auto auto) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE auto SET auto_model='" +
-                    auto.getModel()+"', auto_color='"+auto.getColor()+"', user_id="+auto.getUserId()+" WHERE auto_id="+auto.getId());
-            preparedStatement.execute();
-
-        } catch (SQLException e) {
-            throw new IllegalAccessError("Auto not updated!");
+        Object[] params = new Object[] {auto.getModel(), auto.getColor(), auto.getUser().getId(), auto.getId()};
+        int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.BIGINT, Types.BIGINT};
+        int rows = template.update(SQL_UPDATE_AUTO, params, types);
+        if (rows==1) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
     public boolean delete(int id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM auto WHERE auto_id="+id);
-            preparedStatement.execute();
-
-        } catch (SQLException e) {
-            throw new IllegalAccessError("Auto not deleted!");
-        }
-        return true;
+            int rows = template.update(SQL_DELETE_AUTO_BY_ID, new Object[]{id}, Types.BIGINT);
+            if (rows==1) {
+                return true;
+            }
+            return false;
     }
 
     @Override
     public List<Auto> findAll() {
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet;
-            resultSet = statement.executeQuery("SELECT * FROM auto");
-            List<Auto> autoList = new ArrayList<>();
-            while (resultSet.next()) {
-                int autoId = resultSet.getInt("auto_id");
-                String model = resultSet.getString("auto_model");
-                String color = resultSet.getString("auto_color");
-                int userId = resultSet.getInt("user_id");
-                Auto auto = new Auto(autoId, model, color, userId);
-                autoList.add(auto);
-            }
-            return autoList;
+        this.session = HibernateConnector.getConnector().getSession();
+        session.beginTransaction();
 
-        } catch (SQLException e) {
-            throw new IllegalAccessError("AutoList not ctreated!");
-        }
+        List<Auto> result =  session.createQuery("from Auto", Auto.class).list();
+        session.getTransaction().commit();
+
+        return result;
     }
+
 }
-*/
