@@ -32,7 +32,7 @@ public class UserDaoJDBCImpl implements UsersDao {
     public User find(int id) {
         this.session = HibernateConnector.getConnector().getSession();
         session.beginTransaction();
-
+        //language=HQL
         User user =  session.createQuery ("from User where id = :userId", User.class)
                 .setParameter("userId", id).getSingleResult();
         session.getTransaction().commit();
@@ -64,7 +64,7 @@ public class UserDaoJDBCImpl implements UsersDao {
 
     @Override
     public boolean delete(int id) {
-        int rows = template.update(SQL_DELETE_USER_BY_ID, new Object[]{id}, Types.BIGINT);
+        int rows = template.update(SQL_DELETE_USER_BY_ID, new Object[]{id});
         if (rows==1) {
             return true;
         }
@@ -75,7 +75,7 @@ public class UserDaoJDBCImpl implements UsersDao {
     public List<User> findAll() {
         this.session = HibernateConnector.getConnector().getSession();
         session.beginTransaction();
-
+        //language=HQL
         List<User> result =  session.createQuery("from User", User.class).list();
         session.getTransaction().commit();
 

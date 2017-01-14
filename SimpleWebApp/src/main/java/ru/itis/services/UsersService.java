@@ -67,4 +67,15 @@ public class UsersService {
         usersDao.update(user);
         return true;
     }
+
+    public boolean deleteUser (int id) {
+        usersDao.delete(id);
+        return true;
+    }
+
+    public boolean addUser (String name, int age) {
+        User user = new User(name, age);
+        usersDao.save(user);
+        return true;
+    }
 }

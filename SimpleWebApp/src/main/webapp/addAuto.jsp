@@ -4,14 +4,14 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/addAuto" method="post">
+    <form action="/front/users/${param.user_id}/autos" method="post">
         <input type="text" name="model" placeholder="Модель">
         <input type="text" name="color" placeholder="Цвет">
-        <input type="hidden" name="user_id" value="${param.user_id}">
-        <input type="submit" value="Ok">
+        <input type="hidden" name="_method" value="put">
+        <input type="submit" value="Сохранить">
     </form>
 
-    <a href="/showUsers">Назад</a>
+    <a href="/users">Назад</a>
     <a href="/index.jsp">На главную</a>
 </body>
 </html>

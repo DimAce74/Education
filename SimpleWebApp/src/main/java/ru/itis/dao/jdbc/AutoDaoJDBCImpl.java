@@ -32,7 +32,7 @@ public class AutoDaoJDBCImpl implements AutoDao {
     public Auto find(int id) {
         this.session = HibernateConnector.getConnector().getSession();
         session.beginTransaction();
-
+        //language=HQL
         Auto auto =  session.createQuery ("from Auto where id = :autoId", Auto.class)
                 .setParameter("autoId", id).getSingleResult();
         session.getTransaction().commit();
@@ -64,7 +64,7 @@ public class AutoDaoJDBCImpl implements AutoDao {
 
     @Override
     public boolean delete(int id) {
-            int rows = template.update(SQL_DELETE_AUTO_BY_ID, new Object[]{id}, Types.BIGINT);
+            int rows = template.update(SQL_DELETE_AUTO_BY_ID, new Object[]{id});
             if (rows==1) {
                 return true;
             }
@@ -75,7 +75,7 @@ public class AutoDaoJDBCImpl implements AutoDao {
     public List<Auto> findAll() {
         this.session = HibernateConnector.getConnector().getSession();
         session.beginTransaction();
-
+        //language=HQL
         List<Auto> result =  session.createQuery("from Auto", Auto.class).list();
         session.getTransaction().commit();
 

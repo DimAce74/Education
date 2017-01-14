@@ -3,6 +3,7 @@ package ru.itis;
 
 import ru.itis.dao.UsersDao;
 import ru.itis.factories.UserDaoFactory;
+import ru.itis.factories.UsersServiceFactory;
 import ru.itis.services.UsersService;
 
 import java.io.BufferedReader;
@@ -11,11 +12,10 @@ import java.io.InputStreamReader;
 
 public class App {
     public static void main(String[] args) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        UsersDao usersDao = UserDaoFactory.getInstance().getUsersDao();
-        UsersService usersService = new UsersService(usersDao);
-
+        UsersService usersService = UsersServiceFactory.getInstance().getUsersService();
+/**
         //System.out.println(usersService.ShowAllUsersNames());
         System.out.println("Что хочешь найти?");
         System.out.println("1) Имя пользователя по ID.");
@@ -50,5 +50,10 @@ public class App {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+    usersService.deleteUser(11);
+ */
     }
+
 }

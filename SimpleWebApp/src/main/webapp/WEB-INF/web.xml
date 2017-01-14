@@ -8,53 +8,43 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>hello</servlet-name>
-        <servlet-class>ru.itis.servlets.MyFirstServlet</servlet-class>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>ru.itis.servlets.FrontController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>hello</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/front/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>showUsers</servlet-name>
-        <servlet-class>ru.itis.servlets.ShowUsersServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>showUsers</servlet-name>
-        <url-pattern>/showUsers</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>showAuto</servlet-name>
-        <servlet-class>ru.itis.servlets.ShowAutoServlet</servlet-class>
+        <servlet-name>UserConroller</servlet-name>
+        <servlet-class>ru.itis.servlets.UserController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>showAuto</servlet-name>
-        <url-pattern>/showAuto</url-pattern>
+        <servlet-name>UserConroller</servlet-name>
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>addAuto</servlet-name>
-        <servlet-class>ru.itis.servlets.AddAutoServlet</servlet-class>
+        <servlet-name>AutoController</servlet-name>
+        <servlet-class>ru.itis.servlets.AutoController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>addAuto</servlet-name>
-        <url-pattern>/addAuto</url-pattern>
+        <servlet-name>AutoController</servlet-name>
+        <url-pattern>/autos</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>updateUser</servlet-name>
-        <servlet-class>ru.itis.servlets.UpdateUserServlet</servlet-class>
-    </servlet>
+    <filter>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
 
-    <servlet-mapping>
-        <servlet-name>updateUser</servlet-name>
-        <url-pattern>/updateUser</url-pattern>
-    </servlet-mapping>
+    <filter-mapping>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <servlet-name>FrontController</servlet-name>
+    </filter-mapping>
 
 </web-app>

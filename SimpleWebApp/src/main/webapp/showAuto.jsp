@@ -6,13 +6,33 @@
     <title>Автомобили пользователя</title>
 </head>
 <body>
-    <ol type="1">
-        <c:forEach items="${auto_list}" var="auto">
-            <li>Модель: ${auto.getModel()}, цвет:${auto.getColor()}</li>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Модель</th>
+            <th>Цвет</th>
+            <th>Действия</th>
+        </tr>
+        <c:forEach items="${autos}" var="auto">
+        <tr>
+            <td>${auto.getId()}</td>
+            <td>${auto.getModel()}</td>
+            <td>${auto.getColor()}</td>
+            <td>    <form action="/updateAuto.jsp" method="post">
+                    <input type="hidden" name="auto_id" value="${auto.getId()}">
+                    <input type="hidden" name="model" value="${auto.getModel()}">
+                    <input type="hidden" name="color" value="${auto.getColor()}">
+                    <input type="submit" value="Изменить" style="float:left">
+                    </form>
+                <form action="/deleteAuto.jsp">
+                    <input type="hidden" name="auto_id" value="${auto.getId()}">
+                    <input type="submit" value="Удалить" style="float:left">
+                </form></td>
+        </tr>
         </c:forEach>
-    </ol>
-
-<a href="/showUsers">Назад</a>
-<a href="/index.jsp">На главную</a>
+    </table>
+<br>
+<a href="/users">Назад</a>
+<a href="index.jsp">На главную</a>
 </body>
 </html>
