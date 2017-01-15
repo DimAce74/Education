@@ -3,14 +3,14 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="ru.itis.models.Auto" table="auto" catalog="public">
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="java.lang.Integer" access="field">
             <column name="auto_id"/>
             <generator class="identity"/>
         </id>
         <property name="model" column="auto_model"/>
         <property name="color" column="auto_color"/>
 
-        <many-to-one name="user" class="ru.itis.models.User" fetch="select">
+        <many-to-one name="user" class="ru.itis.models.User" fetch="select" access="field">
             <column name="user_id" not-null="true"/>
         </many-to-one>
     </class>

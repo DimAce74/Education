@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/front/users/${param.user_id}" method="post">
+    <form action="/users/${param.user_id}" method="post">
         <input required type="text" name="user_name" placeholder="${param.user_name}">
         <input required type="text" name="user_age" placeholder="${param.user_age}">
         <input type="submit" value="Ok">

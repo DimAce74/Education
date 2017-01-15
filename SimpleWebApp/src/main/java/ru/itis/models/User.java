@@ -29,7 +29,7 @@ public class User {
         this.listAuto = listAuto;
     }
 
-    public void setId (int id) {
+    private void setId (int id) {
         this.id = id;
     }
 
@@ -41,13 +41,14 @@ public class User {
         this.age = age;
     }
 
-    public void setListAuto(List<Auto> listAuto) {
+    private void setListAuto(List<Auto> listAuto) {
         this.listAuto = listAuto;
     }
 
     public int getId() {
         return id;
     }
+    
     public String getName() {
         return name;
     }
@@ -79,8 +80,4 @@ public class User {
         return hash;
     }
 
-    public void addAuto(Auto auto) {
-        List<Auto> autoList = this.getListAuto();
-        autoList.add(auto);
-    }
 }

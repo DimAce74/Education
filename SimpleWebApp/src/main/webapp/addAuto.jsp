@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/front/users/${param.user_id}/autos" method="post">
+    <form action="/users/${param.user_id}/autos" method="post">
         <input type="text" name="model" placeholder="Модель">
         <input type="text" name="color" placeholder="Цвет">
         <input type="hidden" name="_method" value="put">

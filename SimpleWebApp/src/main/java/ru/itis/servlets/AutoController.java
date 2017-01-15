@@ -35,7 +35,7 @@ public class AutoController extends HttpServlet {
         auto.setModel(model);
         auto.setColor(color);
         autoService.updateAuto(auto);
-        response.sendRedirect("/front/users/"+auto.getUser().getId()+"/autos");
+        response.sendRedirect("/users/"+auto.getUser().getId()+"/autos");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,7 +57,7 @@ public class AutoController extends HttpServlet {
         User user = usersService.findUser(userId);
         Auto auto = new Auto(model, color, user);
         autoService.addAuto(auto);
-        resp.sendRedirect("/front/users/"+userId+"/autos");
+        resp.sendRedirect("/users/"+userId+"/autos");
     }
 
     @Override
@@ -65,6 +65,6 @@ public class AutoController extends HttpServlet {
         int autoId = (Integer)req.getAttribute("auto_id");
         int userId = autoService.findAuto(autoId).getUser().getId();
         autoService.deleteAuto(autoId);
-        resp.sendRedirect("/front/users/"+userId+"/autos");
+        resp.sendRedirect("/users/"+userId+"/autos");
     }
 }

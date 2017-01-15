@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
     <class name="ru.itis.models.User" table="group_user" catalog="public">
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="java.lang.Integer" access="field">
             <column name="id" />
             <generator class="identity" />
         </id>
@@ -12,7 +12,7 @@
         <property name="name" column="user_name"/>
         <property name="age" column="user_age"/>
 
-        <bag name="listAuto" fetch="select">
+        <bag name="listAuto" fetch="select" access="field">
             <key>
                 <column name="user_id"/>
             </key>
@@ -21,3 +21,4 @@
 
     </class>
 </hibernate-mapping>
+

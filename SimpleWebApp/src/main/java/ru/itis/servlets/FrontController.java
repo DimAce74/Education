@@ -15,25 +15,30 @@ public class FrontController extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requstURI = request.getRequestURI();
         String[] partsOfURI = requstURI.split("/");
-        if (requstURI.equals("/front/users")){
+        if (requstURI.equals("/users")) {
             request.getRequestDispatcher("/users").forward(request, response);
-        }else if (requstURI.equals("/front/autos")){
+        } else if (requstURI.equals("/autos")) {
             request.getRequestDispatcher("/autos").forward(request, response);
-        }else if (partsOfURI.length==4) {
-            if (partsOfURI[2].equals("users")) {
-                int userId = Integer.parseInt(partsOfURI[3]);
-                request.setAttribute("user_id", userId);
-                request.getRequestDispatcher("/users").forward(request, response);
-            } else if (partsOfURI[2].equals("autos")) {
-                int autoId = Integer.parseInt(partsOfURI[3]);
+        } else if (partsOfURI.length == 3) {
+            if (partsOfURI[1].equals("users")) {
+                if (partsOfURI[2].equals("add")){
+                    request.getRequestDispatcher("/users").forward(request, response);
+                } else {
+                    int userId = Integer.parseInt(partsOfURI[2]);
+                    request.setAttribute("user_id", userId);
+                    request.getRequestDispatcher("/users").forward(request, response);
+                }
+            } else if (partsOfURI[1].equals("autos")) {
+                int autoId = Integer.parseInt(partsOfURI[2]);
                 request.setAttribute("auto_id", autoId);
                 request.getRequestDispatcher("/autos").forward(request, response);
             }
-        }else if (partsOfURI.length==5) {
-            int userId = Integer.parseInt(partsOfURI[3]);
+        } else if (partsOfURI.length == 4) {
+            int userId = Integer.parseInt(partsOfURI[2]);
             request.setAttribute("user_id", userId);
             request.getRequestDispatcher("/autos").forward(request, response);
         }
+
     }
 }
 

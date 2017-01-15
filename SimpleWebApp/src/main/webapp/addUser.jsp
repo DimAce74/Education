@@ -7,7 +7,7 @@
 <body>
 Новый пользователь:
 <br>
-<form action="/front/users" method="post">
+<form action="/users/add" method="post">
     <input required type="text" name="user_name" placeholder="Имя">
     <input required type="text" name="user_age" placeholder="Возраст">
     <input type="hidden" name="_method" value="put">

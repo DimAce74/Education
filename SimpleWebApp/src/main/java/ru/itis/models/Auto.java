@@ -32,9 +32,10 @@ public class Auto {
         return user;
     }
 
-    public void setUser(User user) {
+    private void setUser(User user) {
         this.user = user;
     }
+
     public int getId() {
         return id;
     }
@@ -48,7 +49,7 @@ public class Auto {
     }
 
 
-    public void setId(int id) {
+    private void setId(int id) {
         this.id = id;
     }
 
