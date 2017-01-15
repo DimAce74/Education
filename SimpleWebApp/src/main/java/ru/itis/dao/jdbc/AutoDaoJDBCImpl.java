@@ -1,13 +1,14 @@
 package ru.itis.dao.jdbc;
 
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import ru.itis.dao.AutoDao;
-import ru.itis.hibernate.HibernateConnector;
 import ru.itis.models.Auto;
 
-import javax.sql.DataSource;
 import java.sql.Types;
 import java.util.List;
 
@@ -22,19 +23,19 @@ public class AutoDaoJDBCImpl implements AutoDao {
     private static final String SQL_DELETE_AUTO_BY_ID ="DELETE FROM auto WHERE auto_id=?";
 
     private JdbcTemplate template;
-    private Session session;
+    private SessionFactory sessionFactory;
 
-    public AutoDaoJDBCImpl(DataSource dataSource) {
-        this.template = new JdbcTemplate(dataSource);
+    public AutoDaoJDBCImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+        this.template = new JdbcTemplate(SessionFactoryUtils.getDataSource(sessionFactory));
     }
 
     @Override
     public Auto find(int id) {
-        this.session = HibernateConnector.getConnector().getSession();
+        Session session = getSession();
         session.beginTransaction();
         //language=HQL
-        Auto auto =  session.createQuery ("from Auto where id = :autoId", Auto.class)
-                .setParameter("autoId", id).getSingleResult();
+        Auto auto =  session.createQuery("from Auto where id = ?", Auto.class).setParameter(0, id).getSingleResult();
         session.getTransaction().commit();
         return auto;
     }
@@ -44,10 +45,7 @@ public class AutoDaoJDBCImpl implements AutoDao {
             Object[] params = new Object[] {auto.getModel(), auto.getColor(), auto.getUser().getId()};
             int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
             int rows = template.update(SQL_INSERT_NEW_AUTO, params, types);
-            if (rows==1) {
-                return true;
-            }
-            return false;
+            return rows==1;
         }
 
 
@@ -56,24 +54,18 @@ public class AutoDaoJDBCImpl implements AutoDao {
         Object[] params = new Object[] {auto.getModel(), auto.getColor(), auto.getUser().getId(), auto.getId()};
         int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.BIGINT, Types.BIGINT};
         int rows = template.update(SQL_UPDATE_AUTO, params, types);
-        if (rows==1) {
-            return true;
-        }
-        return false;
+        return rows==1;
     }
 
     @Override
     public boolean delete(int id) {
             int rows = template.update(SQL_DELETE_AUTO_BY_ID, new Object[]{id});
-            if (rows==1) {
-                return true;
-            }
-            return false;
+            return rows==1;
     }
 
     @Override
     public List<Auto> findAll() {
-        this.session = HibernateConnector.getConnector().getSession();
+        Session session = getSession();
         session.beginTransaction();
         //language=HQL
         List<Auto> result =  session.createQuery("from Auto", Auto.class).list();
@@ -81,5 +73,15 @@ public class AutoDaoJDBCImpl implements AutoDao {
 
         return result;
     }
+    private Session getSession() {
+        Session session;
 
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+
+        return session;
+    }
 }

@@ -1,7 +1,6 @@
 package ru.itis.servlets;
 
-import ru.itis.factories.AutoServiceFactory;
-import ru.itis.factories.UsersServiceFactory;
+import org.springframework.context.ApplicationContext;
 import ru.itis.models.Auto;
 import ru.itis.models.User;
 import ru.itis.services.AutoService;
@@ -22,9 +21,9 @@ public class AutoController extends HttpServlet {
     private UsersService usersService;
     @Override
     public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        autoService = AutoServiceFactory.getInstance().getAutoService();
-        usersService = UsersServiceFactory.getInstance().getUsersService();
+        ApplicationContext context = (ApplicationContext)config.getServletContext().getAttribute("hibernateSpringContext");
+        usersService = (UsersService) context.getBean("usersService");
+        autoService = (AutoService) context.getBean("autoService");
     }
 
     @Override

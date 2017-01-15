@@ -2,12 +2,12 @@ package ru.itis.dao.jdbc;
 
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import ru.itis.dao.UsersDao;
-import ru.itis.hibernate.HibernateConnector;
 import ru.itis.models.User;
 
-import javax.sql.DataSource;
 import java.sql.Types;
 import java.util.List;
 
@@ -22,19 +22,20 @@ public class UserDaoJDBCImpl implements UsersDao {
     private static final String SQL_DELETE_USER_BY_ID ="DELETE FROM group_user WHERE id=?";
 
     private JdbcTemplate template;
-    private Session session;
+    private SessionFactory sessionFactory;
 
-    public UserDaoJDBCImpl(DataSource dataSource) {
-        this.template = new JdbcTemplate(dataSource);
+    public UserDaoJDBCImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+        this.template = new JdbcTemplate(SessionFactoryUtils.getDataSource(sessionFactory));
     }
 
     @Override
     public User find(int id) {
-        this.session = HibernateConnector.getConnector().getSession();
+        Session session = getSession();
         session.beginTransaction();
         //language=HQL
-        User user =  session.createQuery ("from User where id = :userId", User.class)
-                .setParameter("userId", id).getSingleResult();
+        User user =  session.createQuery ("from User where id = ?", User.class)
+                .setParameter(0, id).getSingleResult();
         session.getTransaction().commit();
             return user;
     }
@@ -73,7 +74,7 @@ public class UserDaoJDBCImpl implements UsersDao {
 
     @Override
     public List<User> findAll() {
-        this.session = HibernateConnector.getConnector().getSession();
+        Session session = getSession();
         session.beginTransaction();
         //language=HQL
         List<User> result =  session.createQuery("from User", User.class).list();
@@ -81,6 +82,18 @@ public class UserDaoJDBCImpl implements UsersDao {
 
         return result;
     }
+    private Session getSession() {
+        Session session;
+
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (Exception e) {
+            session = sessionFactory.openSession();
+        }
+
+        return session;
+    }
+
 
 }
 

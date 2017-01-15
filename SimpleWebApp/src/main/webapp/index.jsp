@@ -7,7 +7,7 @@
 <body>
 Что вы хотите узнать?
 <br>
-<form action="users" method="get">
+<form action="front/users" method="get">
     <input type="submit" value="Получить список пользователей">
 </form>
 </body>

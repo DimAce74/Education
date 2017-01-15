@@ -47,4 +47,8 @@
         <servlet-name>FrontController</servlet-name>
     </filter-mapping>
 
+    <listener>
+        <listener-class>ru.itis.config.SpringServletContextListener</listener-class>
+    </listener>
+
 </web-app>

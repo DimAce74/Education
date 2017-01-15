@@ -1,6 +1,6 @@
 package ru.itis.servlets;
 
-import ru.itis.factories.UsersServiceFactory;
+import org.springframework.context.ApplicationContext;
 import ru.itis.models.User;
 import ru.itis.services.UsersService;
 
@@ -19,8 +19,8 @@ public class UserController extends HttpServlet {
     private UsersService usersService;
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
-        super.init(servletConfig);
-        usersService = UsersServiceFactory.getInstance().getUsersService();
+        ApplicationContext context = (ApplicationContext)servletConfig.getServletContext().getAttribute("hibernateSpringContext");
+        usersService = (UsersService) context.getBean("usersService");
     }
 
     @Override
