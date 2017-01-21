@@ -21,9 +21,8 @@ import java.util.Properties;
 @EnableAutoConfiguration
 @Configuration
 @EnableWebMvc
-@ComponentScan("ru.itis.servlets")
+@ComponentScan("ru.itis")
 public class SpringAppConfig extends WebMvcConfigurerAdapter {
-
 
     @Bean
     public ViewResolver viewResolver() {
@@ -36,21 +35,12 @@ public class SpringAppConfig extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
     @Bean
-    public SessionFactory sessionFactory(DataSource dataSource){
+    public SessionFactory sessionFactory(){
         LocalSessionFactoryBean asFactoryBean = new LocalSessionFactoryBean();
         asFactoryBean.setHibernateProperties(getHibernateProperties());
         asFactoryBean.setMappingResources("ru.itis.hibernate/Auto.hbm.xml", "ru.itis.hibernate/User.hbm.xml");
-        asFactoryBean.setDataSource(dataSource);
         return asFactoryBean.getObject();
     }
-    /**
-    @Bean
-    public static DataSource dataSource() {
-        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(url, login, password);
-        driverManagerDataSource.setDriverClassName("org.postgresql.Driver");
-        return driverManagerDataSource;
-    }
-     */
     private static Properties getHibernateProperties () {
         Properties properties = new Properties();
         properties.put ("hibernate.show_sql", "true");
@@ -67,9 +57,5 @@ public class SpringAppConfig extends WebMvcConfigurerAdapter {
         properties.put("hibernate.connection.password", "1234");
         return properties;
     }
-/**
-    public static DataSource getDataSource() {
-        return dataSource;
-    }
- */
+
 }

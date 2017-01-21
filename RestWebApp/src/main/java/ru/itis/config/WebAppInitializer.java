@@ -13,7 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-public class AppInitializer implements WebApplicationInitializer {
+public class WebAppInitializer implements WebApplicationInitializer {
 
     public void onStartup(ServletContext servletContext) throws ServletException {
         WebApplicationContext context = getContext();
@@ -23,13 +23,11 @@ public class AppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("/");
         FilterRegistration.Dynamic filter = servletContext.addFilter("hiddenHttpMethodFilter", new HiddenHttpMethodFilter());
         filter.addMappingForServletNames(null, true, "DispatcherServlet");
-
     }
 
     private AnnotationConfigWebApplicationContext getContext() {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.setConfigLocation("ru.itis.config");
-        context.register(SpringAppConfig.class);
         return context;
     }
 }

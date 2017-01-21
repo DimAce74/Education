@@ -1,12 +1,12 @@
 package ru.itis.models;
 
 public class Auto {
-    private int id;
+    private Integer id;
     private String model;
     private String color;
     private User user;
 
-    public Auto(int id, String model, String color, User user) {
+    public Auto(Integer id, String model, String color, User user) {
         this.id = id;
         this.model = model;
         this.color = color;
@@ -19,7 +19,7 @@ public class Auto {
         this.user = user;
     }
 
-    public Auto(int id, String model, String color) {
+    public Auto(Integer id, String model, String color) {
         this.id = id;
         this.model = model;
         this.color = color;
@@ -36,7 +36,7 @@ public class Auto {
         this.user = user;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -49,7 +49,7 @@ public class Auto {
     }
 
 
-    private void setId(int id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -75,7 +75,7 @@ public class Auto {
     }
     public int hashCode(){
         int hash=1;
-        hash = hash * 31 + Integer.valueOf(id).hashCode();
+        hash = hash * 31 + id.hashCode();
         hash = hash * 31 + (model == null ? 0 : model.hashCode());
         hash = hash * 31 + (color == null ? 0 : color.hashCode());
         hash = hash * 31 + user.hashCode();
