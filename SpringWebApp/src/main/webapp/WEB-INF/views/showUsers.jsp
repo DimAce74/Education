@@ -7,6 +7,8 @@
     <title>Show users</title>
 </head>
 <body>
+<h3>Вы в системе под именем ${cookie.get("user").value}</h3>
+
     <table border="1">
         <tr>
             <th>ID</th>

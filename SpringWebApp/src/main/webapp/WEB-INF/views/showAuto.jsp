@@ -6,6 +6,8 @@
     <title>Автомобили </title>
 </head>
 <body>
+<h3>Вы в системе под именем ${cookie.get("user").value}</h3>
+
 <h1>Автомобили пользователя ${user.name}</h1>
     <table border="1">
         <tr>
@@ -35,7 +37,7 @@
     </form:form>
 
     <br>
-<a href="/users/${user.id}/autos">Назад</a>
+<a href="/users">Назад</a>
 <a href="/index">На главную</a>
 </body>
 </html>

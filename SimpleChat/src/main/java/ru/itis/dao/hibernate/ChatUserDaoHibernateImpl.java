@@ -35,8 +35,9 @@ public class ChatUserDaoHibernateImpl implements ChatUserDao {
 
     @Override
     public void delete(int id) {
+        Session session = getSession();
         ChatUser chatUser = find(id);
-        getSession().delete(chatUser);
+        session.delete(chatUser);
     }
 
     @Override

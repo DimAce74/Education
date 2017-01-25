@@ -5,6 +5,8 @@
     <title>Изменить автомобиль</title>
 </head>
 <body>
+<h3>Вы в системе под именем ${cookie.get("user").value}</h3>
+
     <form:form action="/users/${auto.getUser().getId()}/autos/${auto.id}" method="put">
         <input required type="text" name="model" placeholder="${auto.model}">
         <input required type="text" name="color" placeholder="${auto.color}">

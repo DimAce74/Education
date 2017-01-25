@@ -1,11 +1,19 @@
 package ru.itis.models;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "chat_user")
-public class ChatUser implements BaseModel {
+public class ChatUser implements BaseModel, Serializable {
     @Id
     @Column(name = "id")
     @Access(AccessType.FIELD)
@@ -20,11 +28,18 @@ public class ChatUser implements BaseModel {
     @Column(name = "login")
     private String login;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade =
+            {javax.persistence.CascadeType.DETACH,
+                    javax.persistence.CascadeType.MERGE,
+                    javax.persistence.CascadeType.PERSIST,
+                    javax.persistence.CascadeType.REFRESH},
+            targetEntity = Chat.class)
     @JoinTable(name = "chat_member",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "chat_id"))
-    private List<Chat> chatList;
+            joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "chat_id", nullable = false, updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    private List<Chat> chatList=new ArrayList<>();
 
     public ChatUser() {
     }

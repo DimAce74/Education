@@ -35,8 +35,9 @@ public class MessageDaoHibernateImpl implements MessageDao {
 
     @Override
     public void delete(int id) {
+        Session session = getSession();
         Message message = find(id);
-        getSession().delete(message);
+        session.delete(message);
     }
 
     @Override

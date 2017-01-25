@@ -1,11 +1,20 @@
 package ru.itis.models;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "chat")
-public class Chat implements BaseModel {
+public class Chat implements BaseModel, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -16,11 +25,18 @@ public class Chat implements BaseModel {
     @Access(AccessType.FIELD)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade =
+            {javax.persistence.CascadeType.DETACH,
+            javax.persistence.CascadeType.MERGE,
+            javax.persistence.CascadeType.PERSIST,
+            javax.persistence.CascadeType.REFRESH},
+    targetEntity = ChatUser.class)
     @JoinTable(name = "chat_member",
-    joinColumns = @JoinColumn(name = "chat_id"),
-    inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<ChatUser> chatUserList;
+    joinColumns = @JoinColumn(name = "chat_id", nullable = false, updatable = false),
+    inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    private List<ChatUser> chatUserList= new ArrayList<>();
 
     public Chat() {
     }

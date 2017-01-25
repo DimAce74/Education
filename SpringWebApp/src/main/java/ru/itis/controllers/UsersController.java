@@ -16,12 +16,6 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
-    @GetMapping(value = {"/", "/index"})
-    @ResponseBody ModelAndView index(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }
 
     @GetMapping(value = "/users")
     @ResponseBody ModelAndView getUsers() {

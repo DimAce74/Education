@@ -18,11 +18,11 @@ public class ChatSession implements BaseModel {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private Integer userId;
+    private ChatUser chatUser;
 
     @OneToOne
     @JoinColumn(name = "last_message_id")
-    private Integer lastMessageId;
+    private Message lastMessage;
 
     public ChatSession() {
     }
@@ -31,33 +31,33 @@ public class ChatSession implements BaseModel {
     public ChatSession(Builder builder) {
         this.id = builder.id;
         this.token = builder.token;
-        this.userId = builder.userId;
-        this.lastMessageId = builder.lastMessageId;
+        this.chatUser = builder.chatUser;
+        this.lastMessage = builder.lastMessage;
     }
 
     public static class Builder {
         private Integer id;
         private String token;
-        private Integer userId;
-        private Integer lastMessageId;
+        private ChatUser chatUser;
+        private Message lastMessage;
 
-        public Builder id(Integer id) {
-            this.id = id;
+        public Builder id(Integer value) {
+            this.id = value;
             return this;
         }
 
-        public Builder token(String token) {
-            this.token = token;
+        public Builder token(String value) {
+            this.token = value;
             return this;
         }
 
-        public Builder userId(Integer userId) {
-            this.userId = userId;
+        public Builder chatUser(ChatUser value) {
+            this.chatUser = value;
             return this;
         }
 
-        public Builder lastMessageId(Integer lastMessageId) {
-            this.lastMessageId = lastMessageId;
+        public Builder lastMessage(Message value) {
+            this.lastMessage = value;
             return this;
         }
 
@@ -74,12 +74,12 @@ public class ChatSession implements BaseModel {
         return token;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public ChatUser getChatUser() {
+        return chatUser;
     }
 
-    public Integer getLastMessageId() {
-        return lastMessageId;
+    public Message getLastMessage() {
+        return lastMessage;
     }
 
     @Override
@@ -87,20 +87,20 @@ public class ChatSession implements BaseModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ChatSession chatSession = (ChatSession) o;
+        ChatSession that = (ChatSession) o;
 
-        if (!getId().equals(chatSession.getId())) return false;
-        if (!getToken().equals(chatSession.getToken())) return false;
-        if (!getUserId().equals(chatSession.getUserId())) return false;
-        return getLastMessageId() != null ? getLastMessageId().equals(chatSession.getLastMessageId()) : chatSession.getLastMessageId() == null;
+        if (!getId().equals(that.getId())) return false;
+        if (!getToken().equals(that.getToken())) return false;
+        if (!getChatUser().equals(that.getChatUser())) return false;
+        return getLastMessage() != null ? getLastMessage().equals(that.getLastMessage()) : that.getLastMessage() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId().hashCode();
         result = 31 * result + getToken().hashCode();
-        result = 31 * result + getUserId().hashCode();
-        result = 31 * result + (getLastMessageId() != null ? getLastMessageId().hashCode() : 0);
+        result = 31 * result + getChatUser().hashCode();
+        result = 31 * result + (getLastMessage() != null ? getLastMessage().hashCode() : 0);
         return result;
     }
 }

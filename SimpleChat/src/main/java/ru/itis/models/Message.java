@@ -43,23 +43,23 @@ public class Message implements BaseModel {
         private ChatUser chatUser;
         private String text;
 
-        public Builder id(Integer id) {
-            this.id = id;
+        public Builder id(Integer value) {
+            this.id = value;
             return this;
         }
 
-        public Builder chat(Chat chat) {
-            this.chat = chat;
+        public Builder chat(Chat value) {
+            this.chat = value;
             return this;
         }
 
-        public Builder chatUser(ChatUser chatUser) {
-            this.chatUser = chatUser;
+        public Builder chatUser(ChatUser value) {
+            this.chatUser = value;
             return this;
         }
 
-        public Builder text(String text) {
-            this.text = text;
+        public Builder text(String value) {
+            this.text = value;
             return this;
         }
 

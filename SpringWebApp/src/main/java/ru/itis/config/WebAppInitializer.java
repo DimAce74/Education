@@ -7,6 +7,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.DispatcherServlet;
+import ru.itis.filters.LoginFilter;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
@@ -23,6 +24,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("/");
         FilterRegistration.Dynamic filter = servletContext.addFilter("hiddenHttpMethodFilter", new HiddenHttpMethodFilter());
         filter.addMappingForServletNames(null, true, "DispatcherServlet");
+        FilterRegistration.Dynamic loginFilter = servletContext.addFilter("loginFilter", new LoginFilter());
+        loginFilter.addMappingForUrlPatterns(null, false, "/", "*");
     }
 
     private AnnotationConfigWebApplicationContext getContext() {
