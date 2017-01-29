@@ -21,25 +21,30 @@ public class ChatUser implements BaseModel, Serializable {
     private Integer id;
 
     @Access(AccessType.FIELD)
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Access(AccessType.FIELD)
-    @Column(name = "login")
+    @Column(name = "login", unique = true, nullable = false)
     private String login;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade =
-            {javax.persistence.CascadeType.DETACH,
-                    javax.persistence.CascadeType.MERGE,
-                    javax.persistence.CascadeType.PERSIST,
-                    javax.persistence.CascadeType.REFRESH},
-            targetEntity = Chat.class)
+    @Access(AccessType.FIELD)
+    @Column(name = "name")
+    private String name;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "chat_member",
-            joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "chat_id", nullable = false, updatable = false),
-            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
-            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "chat_id"))
     private List<Chat> chatList=new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "token_storage",
+            joinColumns=@JoinColumn(name="user_id")
+    )
+    @Column(name="token")
+    private List<String> tokens;
 
     public ChatUser() {
     }
@@ -48,14 +53,18 @@ public class ChatUser implements BaseModel, Serializable {
         this.id = builder.id;
         this.password = builder.password;
         this.login = builder.login;
+        this.name = builder.name;
         this.chatList = builder.chatList;
+        this.tokens = builder.tokens;
     }
 
     public static class Builder {
         private Integer id;
         private String password;
         private String login;
+        private String name;
         private List<Chat> chatList;
+        private List<String> tokens;
 
         public Builder id(Integer value) {
             this.id = value;
@@ -72,8 +81,18 @@ public class ChatUser implements BaseModel, Serializable {
             return this;
         }
 
+        public Builder name (String value) {
+            this.name = value;
+            return this;
+        }
+
         public Builder chatList(List<Chat> value){
             this.chatList=value;
+            return this;
+        }
+
+        public Builder tokens(List<String> value){
+            this.tokens = value;
             return this;
         }
 
@@ -94,7 +113,13 @@ public class ChatUser implements BaseModel, Serializable {
         return id;
     }
 
+    public String getName() {return name;}
+
     public List<Chat> getChatList() {return chatList;}
+
+    public List<String> getTokens() {
+        return tokens;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -106,7 +131,10 @@ public class ChatUser implements BaseModel, Serializable {
         if (!getId().equals(chatUser.getId())) return false;
         if (!getPassword().equals(chatUser.getPassword())) return false;
         if (!getLogin().equals(chatUser.getLogin())) return false;
-        return getChatList() != null ? getChatList().equals(chatUser.getChatList()) : chatUser.getChatList() == null;
+        if (!getName().equals(chatUser.getName())) return false;
+        if (getChatList() != null ? !getChatList().equals(chatUser.getChatList()) : chatUser.getChatList() != null)
+            return false;
+        return getTokens() != null ? getTokens().equals(chatUser.getTokens()) : chatUser.getTokens() == null;
     }
 
     @Override
@@ -114,7 +142,9 @@ public class ChatUser implements BaseModel, Serializable {
         int result = getId().hashCode();
         result = 31 * result + getPassword().hashCode();
         result = 31 * result + getLogin().hashCode();
+        result = 31 * result + getName().hashCode();
         result = 31 * result + (getChatList() != null ? getChatList().hashCode() : 0);
+        result = 31 * result + (getTokens() != null ? getTokens().hashCode() : 0);
         return result;
     }
 }

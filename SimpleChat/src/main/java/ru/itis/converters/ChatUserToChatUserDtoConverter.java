@@ -12,6 +12,7 @@ public class ChatUserToChatUserDtoConverter {
         ChatUserDto chatUserDto = new ChatUserDto.Builder()
                 .id(chatUser.getId())
                 .login(chatUser.getLogin())
+                .name(chatUser.getName())
                 .password(chatUser.getPassword())
                 .build();
         return chatUserDto;
@@ -22,6 +23,7 @@ public class ChatUserToChatUserDtoConverter {
                 .id(chatUser.getId())
                 .login(chatUser.getLogin())
                 .password(chatUser.getPassword())
+                .name(chatUser.getName())
                 .chatDtoList(new ArrayList<ChatDto>())
                 .build();
         for(Chat chat: chatUser.getChatList()){

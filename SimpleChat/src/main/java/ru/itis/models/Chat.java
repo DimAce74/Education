@@ -25,18 +25,12 @@ public class Chat implements BaseModel, Serializable {
     @Access(AccessType.FIELD)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade =
-            {javax.persistence.CascadeType.DETACH,
-            javax.persistence.CascadeType.MERGE,
-            javax.persistence.CascadeType.PERSIST,
-            javax.persistence.CascadeType.REFRESH},
-    targetEntity = ChatUser.class)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "chat_member",
-    joinColumns = @JoinColumn(name = "chat_id", nullable = false, updatable = false),
-    inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
-            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
-            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    joinColumns = @JoinColumn(name = "chat_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<ChatUser> chatUserList= new ArrayList<>();
+
 
     public Chat() {
     }
@@ -82,6 +76,10 @@ public class Chat implements BaseModel, Serializable {
     }
 
     public List<ChatUser> getChatUserList(){return chatUserList;}
+
+    //public void addChatUser (ChatUser chatUser) {
+    //    this.getChatUserList().add(chatUser);
+    //}
 
     @Override
     public boolean equals(Object o) {

@@ -1,12 +1,16 @@
 package ru.itis.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChatUserDto{
 
     private Integer id;
     private String password;
     private String login;
+    private String name;
     private List<ChatDto> chatDtoList;
 
     public ChatUserDto() {
@@ -16,6 +20,7 @@ public class ChatUserDto{
         this.id = builder.id;
         this.password = builder.password;
         this.login = builder.login;
+        this.name = builder.name;
         this.chatDtoList = builder.chatDtoList;
     }
 
@@ -23,6 +28,7 @@ public class ChatUserDto{
         private Integer id;
         private String password;
         private String login;
+        private String name;
         private List<ChatDto> chatDtoList;
 
         public Builder id(Integer value) {
@@ -37,6 +43,11 @@ public class ChatUserDto{
 
         public Builder login(String value) {
             this.login = value;
+            return this;
+        }
+
+        public Builder name(String value) {
+            this.name = value;
             return this;
         }
 
@@ -62,27 +73,10 @@ public class ChatUserDto{
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public List<ChatDto> getChatDtoList() {return chatDtoList;}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ChatUserDto chatUserDto = (ChatUserDto) o;
-
-        if (!getId().equals(chatUserDto.getId())) return false;
-        if (!getPassword().equals(chatUserDto.getPassword())) return false;
-        if (!getLogin().equals(chatUserDto.getLogin())) return false;
-        return getChatDtoList() != null ? getChatDtoList().equals(chatUserDto.getChatDtoList()) : chatUserDto.getChatDtoList() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getPassword().hashCode();
-        result = 31 * result + getLogin().hashCode();
-        result = 31 * result + (getChatDtoList() != null ? getChatDtoList().hashCode() : 0);
-        return result;
-    }
 }

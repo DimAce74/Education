@@ -1,10 +1,11 @@
 package ru.itis.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "message")
-public class Message implements BaseModel {
+public class Message implements BaseModel, Serializable {
     @Id
     @Column(name = "id")
     @Access(AccessType.FIELD)

@@ -1,8 +1,10 @@
 package ru.itis.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChatDto {
 
     private Integer id;
@@ -56,23 +58,4 @@ public class ChatDto {
 
     public List<ChatUserDto> getChatUserDtoList(){return chatUserDtoList;}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ChatDto chatDto = (ChatDto) o;
-
-        if (!getId().equals(chatDto.getId())) return false;
-        if (!getName().equals(chatDto.getName())) return false;
-        return getChatUserDtoList() != null ? getChatUserDtoList().equals(chatDto.getChatUserDtoList()) : chatDto.getChatUserDtoList() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getName().hashCode();
-        result = 31 * result + (getChatUserDtoList() != null ? getChatUserDtoList().hashCode() : 0);
-        return result;
-    }
 }

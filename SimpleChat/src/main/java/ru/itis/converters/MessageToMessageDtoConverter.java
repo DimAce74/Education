@@ -14,13 +14,21 @@ public class MessageToMessageDtoConverter {
         return messageDto;
     }
 
+    public static MessageDto convertWithoutChatWithChatUserName(Message message){
+        MessageDto messageDto = new MessageDto.Builder()
+                .id(message.getId())
+                .userName(message.getChatUser().getName())
+                .text(message.getText())
+                .build();
+        return messageDto;
+    }
+
     public static MessageDto convertWithChatWithChatUser(Message message){
         ChatDto chatDto = ChatToChatDtoConverter.convertWithoutChatUser(message.getChat());
-        ChatUserDto chatUserDto = ChatUserToChatUserDtoConverter.convertWithoutChat(message.getChatUser());
         MessageDto messageDto = new MessageDto.Builder()
                 .id(message.getId())
                 .chat(chatDto)
-                .chatUser(chatUserDto)
+                .userName(message.getChatUser().getName())
                 .text(message.getText())
                 .build();
         return messageDto;

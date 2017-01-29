@@ -10,7 +10,6 @@ import ru.itis.models.Message;
 
 import java.util.List;
 
-@Transactional
 @Repository
 public class MessageDaoHibernateImpl implements MessageDao {
 
@@ -21,11 +20,9 @@ public class MessageDaoHibernateImpl implements MessageDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Message find(int id) {
-        //language=HQL
-        return getSession().createQuery("from Message where id = ?", Message.class)
-                .setParameter(0, id).getSingleResult();
+        return getSession().createQuery("from Message where id = :id", Message.class)
+                .setParameter("id", id).getSingleResult();
     }
 
     @Override
@@ -35,26 +32,31 @@ public class MessageDaoHibernateImpl implements MessageDao {
 
     @Override
     public void delete(int id) {
-        Session session = getSession();
         Message message = find(id);
-        session.delete(message);
+        getSession().delete(message);
+    }
+
+    public List<Message> findAllByChatId(Integer chatId) {
+        return getSession().createQuery("from Message where chat.id = :id", Message.class)
+                .setParameter("id", chatId).list();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Message> findAll() {
-        //language=HQL
         return getSession().createQuery("from Message", Message.class).list();    }
 
+    @Override
+    public List<Message> findNewMessages(Integer chatId, Integer userId){
+        Message lastMessage = find(getSession().createNativeQuery("SELECT FROM chat_member WHERE chat_id=:chatId, user_id=:userId", Integer.class)
+                .setParameter("chatId", chatId)
+                .setParameter("userId", userId)
+                .getSingleResult());
+        return getSession().createQuery("from Message where chat.id=:chatId and chatUser.id=:userId and id>:messageId", Message.class)
+                .setParameter("chatId", chatId)
+                .setParameter("userId", userId)
+                .setParameter("messageId", lastMessage.getId()).list();
+    }
     private Session getSession() {
-        Session session;
-
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (Exception e) {
-            session = sessionFactory.openSession();
-        }
-
-        return session;
+        return sessionFactory.getCurrentSession();
     }
 }
