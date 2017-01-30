@@ -62,4 +62,9 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> findNewMessages(Integer chatId, Integer userId) {
         return messageDao.findNewMessages(chatId, userId);
     }
+
+    @Override
+    public Integer saveLastMessage(Integer chatId, Integer userId, Integer messageId) {
+        return messageDao.saveLastMessage(chatId, userId, messageId);
+    }
 }

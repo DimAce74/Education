@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface MessageService extends BaseService <Message> {
     List<Message> findAllByChatId(Integer chatId);
-    public List<MessageDto> getNewMessages();
-    public void handleMessage(MessageDto inputMessage);
+    List<MessageDto> getNewMessages();
+    void handleMessage(MessageDto inputMessage);
     List<Message> findNewMessages(Integer chatId, Integer userId);
+    Integer saveLastMessage(Integer chatId, Integer userId, Integer messageId);
 }

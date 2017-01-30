@@ -1,7 +1,6 @@
 package ru.itis.converters;
 
 import ru.itis.dto.ChatDto;
-import ru.itis.dto.ChatUserDto;
 import ru.itis.dto.MessageDto;
 import ru.itis.models.Message;
 

@@ -2,10 +2,11 @@ package ru.itis.dao.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.type.IntegerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.itis.dao.MessageDao;
+import ru.itis.exceptions.SavingMessageException;
 import ru.itis.models.Message;
 
 import java.util.List;
@@ -47,15 +48,35 @@ public class MessageDaoHibernateImpl implements MessageDao {
 
     @Override
     public List<Message> findNewMessages(Integer chatId, Integer userId){
-        Message lastMessage = find(getSession().createNativeQuery("SELECT FROM chat_member WHERE chat_id=:chatId, user_id=:userId", Integer.class)
-                .setParameter("chatId", chatId)
-                .setParameter("userId", userId)
-                .getSingleResult());
-        return getSession().createQuery("from Message where chat.id=:chatId and chatUser.id=:userId and id>:messageId", Message.class)
-                .setParameter("chatId", chatId)
-                .setParameter("userId", userId)
-                .setParameter("messageId", lastMessage.getId()).list();
+        Integer messageId =(Integer) getSession().createNativeQuery("SELECT * FROM chat_member WHERE chat_id=? AND user_id=?")
+                .setParameter(1, chatId)
+                .setParameter(2, userId)
+                .addScalar("last_message_id", IntegerType.INSTANCE)
+                .getSingleResult();
+        if(messageId!=null){
+            Message lastMessage = find(messageId);
+            return getSession().createQuery("from Message where chat.id=:chatId and id > :messageId", Message.class)
+                    .setParameter("chatId", chatId)
+                    .setParameter("messageId", lastMessage.getId()).list();
+        }else{
+            return findAllByChatId(chatId);
+        }
     }
+
+    @Override
+    public Integer saveLastMessage(Integer chatId, Integer userId, Integer messageId) {
+        int row = getSession().createNativeQuery("UPDATE chat_member SET last_message_id=? WHERE chat_id=? AND user_id=?")
+                .setParameter(1, messageId)
+                .setParameter(2, chatId)
+                .setParameter(3, userId).executeUpdate();
+        if(row==1){
+            return messageId;
+        }else {
+            throw new SavingMessageException();
+        }
+    }
+
+
     private Session getSession() {
         return sessionFactory.getCurrentSession();
     }

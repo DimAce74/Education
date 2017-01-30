@@ -20,11 +20,6 @@ public class TokenAuthFilter extends GenericFilterBean {
 
     private AuthenticationManager authenticationManager;
 
-    /**
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    **/
-
     public TokenAuthFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }

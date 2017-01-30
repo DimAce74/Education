@@ -4,10 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.itis.dao.ChatDao;
 import ru.itis.models.Chat;
-import ru.itis.models.ChatUser;
 
 import java.util.List;
 

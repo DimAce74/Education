@@ -1,12 +1,6 @@
 package ru.itis.models;
 
-import org.hibernate.annotations.*;
-
 import javax.persistence.*;
-import javax.persistence.AccessType;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

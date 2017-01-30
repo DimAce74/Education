@@ -6,11 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.converters.ChatToChatDtoConverter;
 import ru.itis.dto.ChatDto;
-import ru.itis.dto.MessageDto;
 import ru.itis.models.Chat;
 import ru.itis.services.ChatService;
 import ru.itis.services.ChatUserService;
-import ru.itis.services.MessageService;
 
 import java.util.ArrayList;
 import java.util.List;
