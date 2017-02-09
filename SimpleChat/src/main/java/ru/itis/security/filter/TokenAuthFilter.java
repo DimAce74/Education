@@ -28,6 +28,7 @@ public class TokenAuthFilter extends GenericFilterBean {
             throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         System.out.println(httpServletRequest.getRequestURI());
+        System.out.println(httpServletRequest.getMethod());
         try {
             String headerValue = httpServletRequest.getHeader(header);
 
@@ -40,13 +41,19 @@ public class TokenAuthFilter extends GenericFilterBean {
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         } catch (AuthenticationException authenticationException) {
+            authenticationException.printStackTrace();
             throw new AuthException();
         }
     }
 
     private boolean isNotRequiringProtection(HttpServletRequest request) {
         return request.getRequestURI().startsWith("/newuser") && request.getMethod().equals("POST")
+                || request.getMethod().equals("OPTIONS")
                 || request.getRequestURI().endsWith("favicon.ico")
+                || request.getRequestURI().endsWith("info")
+                || request.getRequestURI().endsWith("websocket")
+                || request.getRequestURI().endsWith("xhr_streaming")
+                || request.getRequestURI().endsWith("xhr")
                 || request.getRequestURI().startsWith("/login") && request.getMethod().equals("POST");
     }
 }

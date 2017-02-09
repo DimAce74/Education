@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itis.dao.ChatDao;
+import ru.itis.exceptions.ChatNotFoundException;
 import ru.itis.models.Chat;
 import ru.itis.services.ChatService;
 
@@ -12,14 +13,18 @@ import java.util.List;
 @Service("ChatService")
 @Transactional
 public class ChatServiceImpl implements ChatService {
+
+    ChatDao chatDao;
+
     @Autowired
-    private ChatDao chatDao;
+    public ChatServiceImpl(ChatDao chatDao) {
+        this.chatDao = chatDao;
+    }
 
     @Override
     @Transactional(readOnly = true)
     public Chat find(int id) {
-
-        return chatDao.find(id);
+            return chatDao.find(id);
     }
 
     @Override

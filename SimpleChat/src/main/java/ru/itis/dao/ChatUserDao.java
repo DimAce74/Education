@@ -9,4 +9,5 @@ public interface ChatUserDao extends Dao<ChatUser> {
     ChatUser findByLogin(String login);
     boolean isExistsToken(String token);
     ChatUser findUserByToken (String token);
+    boolean isMemberOfChat(Integer userId, Integer chatId);
 }

@@ -3,14 +3,17 @@ package ru.itis.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.converters.MessageToMessageDtoConverter;
 import ru.itis.dto.MessageDto;
+import ru.itis.models.ChatUser;
 import ru.itis.models.Message;
 import ru.itis.services.ChatService;
 import ru.itis.services.ChatUserService;
 import ru.itis.services.MessageService;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,30 +27,36 @@ public class MessageController {
     private ChatService chatService;
     @Autowired
     private ChatUserService chatUserService;
+    @Autowired
+    private SimpMessagingTemplate template;
 
-    @PostMapping("/chats/{chatId}/messages/{userId}")
+    @PostMapping("/chats/{chatId}/messages")
     public void sendMessage(@RequestBody MessageDto messageDto,
                             @PathVariable("chatId") int chatId,
-                            @PathVariable("userId") int userId) {
+                            @RequestHeader("Auth-Token") String token) {
+        ChatUser chatUser = chatUserService.findUserByToken(token);
         Message message = new Message.Builder()
                 .chat(chatService.find(chatId))
-                .chatUser(chatUserService.find(userId))
+                .chatUser(chatUser)
                 .text(messageDto.getText())
                 .build();
         int messageId=messageService.save(message);
-        messageService.saveLastMessage(chatId, userId, messageId);
-        messageService.handleMessage(messageDto);
+        messageService.saveLastMessage(chatId, chatUser.getId(), messageId);
+        messageDto = MessageToMessageDtoConverter.convertWithoutChatWithChatUserName(message);
+        template.convertAndSend("/topic/"+chatId+"/messages", messageDto);
     }
 
-    @GetMapping("/chats/{chatId}/messages/{userId}")
+    @GetMapping("/chats/{chatId}/messages")
     public ResponseEntity<List<MessageDto>> getMessages(
             @PathVariable("chatId") int chatId,
-            @PathVariable("userId") int userId,
+            @RequestHeader("Auth-Token") String token,
             @RequestParam("get") String choice){
+        int userId = chatUserService.findUserByToken(token).getId();
         if(choice.equals("all")) {
             List<Message> messageList = messageService.findAllByChatId(chatId);
             List<MessageDto> result =messageList.stream()
                     .map(MessageToMessageDtoConverter::convertWithoutChatWithChatUserName)
+                    .sorted(Comparator.comparing(MessageDto::getId))
                     .collect(Collectors.toList());
             if(!messageList.isEmpty()) {
                 Message lastMessage = messageList.stream()
@@ -55,29 +64,10 @@ public class MessageController {
                 messageService.saveLastMessage(chatId, userId, lastMessage.getId());
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
-        }else if(choice.equals("online")){
-            synchronized (messageService.getNewMessages()) {
-                while (messageService.getNewMessages().stream()
-                        .filter(messageDto -> messageDto.getChatDto().getId() == chatId)
-                        .count() == 0) {
-                    try {
-                        messageService.getNewMessages().wait();
-                    } catch (InterruptedException e) {
-                        throw new IllegalArgumentException();
-                    }
-                }
-                List<MessageDto> result = messageService.getNewMessages().stream()
-                        .filter(messageDto -> messageDto.getChatDto().getId() == chatId)
-                        .collect(Collectors.toList());
-                MessageDto lastMessageDto = result.stream()
-                        .max(Comparator.comparing(MessageDto::getId)).get();
-                messageService.saveLastMessage(chatId, userId, lastMessageDto.getId());
-                messageService.getNewMessages().clear();
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
         }else if(choice.equals("new")){
             List<MessageDto> result = messageService.findNewMessages(chatId, userId).stream()
                     .map(MessageToMessageDtoConverter::convertWithoutChatWithChatUserName)
+                    .sorted(Comparator.comparing(MessageDto::getId))
                     .collect(Collectors.toList());
             if(!result.isEmpty()) {
                 MessageDto lastMessageDto = result.stream()
@@ -85,6 +75,28 @@ public class MessageController {
                 messageService.saveLastMessage(chatId, userId, lastMessageDto.getId());
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
+        }else if(choice.equals("last")){
+            List<MessageDto> result = messageService.findAllByChatId(chatId).stream()
+                    .map(MessageToMessageDtoConverter::convertWithoutChatWithChatUserName)
+                    .sorted(Comparator.comparing(MessageDto::getId))
+                    .collect(Collectors.toList());
+            if(result.size()>10){
+                List<MessageDto> lastResult = new ArrayList<>();
+                for (int i = result.size()-1; i>result.size()-11; i--){
+                    lastResult.add(result.get(i));
+                }
+                lastResult.sort(Comparator.comparing(MessageDto::getId));
+                result = lastResult;
+            }
+            if(!result.isEmpty()) {
+                MessageDto lastMessageDto = result.stream()
+                        .max(Comparator.comparing(MessageDto::getId)).get();
+                messageService.saveLastMessage(chatId, userId, lastMessageDto.getId());
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+
+
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

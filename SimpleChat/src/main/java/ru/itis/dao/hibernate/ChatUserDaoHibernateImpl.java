@@ -6,9 +6,12 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.itis.dao.ChatUserDao;
+import ru.itis.exceptions.ChatNotFoundException;
+import ru.itis.exceptions.UserNotFoundException;
 import ru.itis.models.Chat;
 import ru.itis.models.ChatUser;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
@@ -22,8 +25,12 @@ public class ChatUserDaoHibernateImpl implements ChatUserDao {
 
     @Override
     public ChatUser find(int id) {
-        return getSession().createQuery("from ChatUser where id = :id", ChatUser.class)
-                .setParameter("id", id).getSingleResult();
+        try {
+            return getSession().createQuery("from ChatUser where id = :id", ChatUser.class)
+                    .setParameter("id", id).getSingleResult();
+        } catch (NoResultException e){
+            throw new UserNotFoundException();
+        }
     }
 
     @Override
@@ -43,9 +50,19 @@ public class ChatUserDaoHibernateImpl implements ChatUserDao {
 
     @Override
     public void saveUserToChat(Integer userId, Integer chatId) {
-        ChatUser chatUser = find(userId);
-        Chat chat = getSession().createQuery("from Chat where id = :id", Chat.class)
-                .setParameter("id", chatId).getSingleResult();
+        ChatUser chatUser;
+        Chat chat;
+        try{
+        chatUser = find(userId);
+        } catch (NoResultException e){
+            throw new UserNotFoundException();
+        }
+        try {
+            chat = getSession().createQuery("from Chat where id = :id", Chat.class)
+                    .setParameter("id", chatId).getSingleResult();
+        } catch (NoResultException e){
+            throw new ChatNotFoundException();
+        }
         chatUser.getChatList().add(chat);
         save(chatUser);
     }
@@ -75,7 +92,13 @@ public class ChatUserDaoHibernateImpl implements ChatUserDao {
                 .setParameter("token",token).getSingleResult();
     }
 
+    @Override
+    public boolean isMemberOfChat(Integer userId, Integer chatId) {
+        ChatUser chatUser = find(userId);
 
+        return chatUser.getChatList().stream().filter(chat -> chat.getId()==chatId)
+                .count()==1;
+    }
 
 
     private Session getSession() {

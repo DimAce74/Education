@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestHeader("password") String password,
+    public ResponseEntity<ChatUser> login(@RequestHeader("password") String password,
                                         @RequestHeader("login") String login) {
         if (chatUserService.isLoginExists(login)) {
 
@@ -35,6 +35,7 @@ public class AuthController {
                 ChatUser chatUser = chatUserService.login(password, login);
                 String token = chatUserService.getToken(chatUser);
                 HttpHeaders headers = new HttpHeaders();
+                headers.add("Access-Control-Expose-Headers", "Auth-Token");
                 headers.add("Auth-Token", token);
                 return new ResponseEntity<>(null, headers, HttpStatus.OK);
             } catch (UserSigningException e){

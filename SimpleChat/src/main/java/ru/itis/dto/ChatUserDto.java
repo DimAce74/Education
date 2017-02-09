@@ -1,6 +1,8 @@
 package ru.itis.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ public class ChatUserDto{
     private String login;
     private String name;
     private List<ChatDto> chatDtoList;
+    private PasswordEncoder encoder = new BCryptPasswordEncoder();
+
 
     public ChatUserDto() {
     }
@@ -79,4 +83,27 @@ public class ChatUserDto{
 
     public List<ChatDto> getChatDtoList() {return chatDtoList;}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ChatUserDto that = (ChatUserDto) o;
+
+        if (!getId().equals(that.getId())) return false;
+        if (!encoder.matches(getPassword(), that.getPassword())) return false;
+        if (!getLogin().equals(that.getLogin())) return false;
+        if (!getName().equals(that.getName())) return false;
+        return getChatDtoList() != null ? getChatDtoList().equals(that.getChatDtoList()) : that.getChatDtoList() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + getLogin().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + (getChatDtoList() != null ? getChatDtoList().hashCode() : 0);
+        return result;
+    }
 }

@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>Chat WebSocket</title>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.2/stomp.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="script.js" defer></script>
+    
+</head>
+<body onload="start()"> 
+<div>
+    <div id="loginForm">
+        <div id>
+            <button id="registrButton" onclick="showRegistr();">Регистрация</button>
+            <button id="loginButton" onclick="showLogin();">Авторизация</button>
+        </div>
+
+        <div id="registrationForm">
+            <input type="text" id="login" placeholder="Choose a login"/><br />
+            <input type="text" id="password" placeholder="Choose a password"/><br />
+            <input type="text" id="name" placeholder="Choose a nickname"/><br />
+        </div>
+        <br />
+        <button id="sendRegistr" onclick="registration();">Регистрация</button>
+        <button id="sendLogin" disabled="disabled" onclick="login();">Авторизация</button>
+
+    </div>
+    <div>
+        <br />
+        <button id="logout" onclick="logout();">Выйти</button>
+        <br />
+    </div>
+    <div id="menu" style="position: absolute;">
+        <button id="showChats" onclick="showChats();">Показать чаты</button><br />
+        <input type="text" id="chatName" placeholder="Введите название чата"/>
+        <button id="addChat" onclick="addChat();">Добавить чат</button>
+        <div id="chats" style="visibility: hidden;"></div>
+    </div>
+    <br />
+    <div id="chat" style="visibility: hidden;">
+        <div>
+            <textarea id="chatArea" rows="15" cols="50" readonly wrap="soft"></textarea>
+        </div>
+        <input id="text" type="text" placeholder="Введите сообщение"/>
+        <button id="sendMessage">Отправить</button>
+        <button id="lastMessages">Показать последние 10 сообщений</button>
+        <button id="allMessages">Показать все сообщения</button>
+        <audio id="messageNotify" preload="auto" >
+            <source src="NotifyMessaging.wav"></source>
+        </audio>
+    </div>
+    <div>
+
+    </div>
+</div>
+</body>
+</html>

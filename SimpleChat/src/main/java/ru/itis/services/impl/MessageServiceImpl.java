@@ -16,11 +16,6 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
     @Autowired
     private MessageDao messageDao;
-    private List<MessageDto> newMessages;
-
-    public MessageServiceImpl() {
-        this.newMessages = new ArrayList<>();
-    }
 
     @Override
     public Message find(int id) {
@@ -45,17 +40,6 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<Message> findAllByChatId(Integer chatId) {
         return messageDao.findAllByChatId(chatId);
-    }
-
-    public List<MessageDto> getNewMessages() {
-        return newMessages;
-    }
-
-    public void handleMessage(MessageDto inputMessage) {
-        synchronized (newMessages) {
-            newMessages.add(inputMessage);
-            newMessages.notify();
-        }
     }
 
     @Override

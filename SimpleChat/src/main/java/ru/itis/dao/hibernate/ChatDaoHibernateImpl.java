@@ -5,8 +5,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.itis.dao.ChatDao;
+import ru.itis.exceptions.ChatNotFoundException;
 import ru.itis.models.Chat;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository("ChatDao")
@@ -19,8 +21,12 @@ public class ChatDaoHibernateImpl implements ChatDao{
 
     @Override
     public Chat find(int id) {
+        try{
         return getSession().createQuery("from Chat where id = :id", Chat.class)
                 .setParameter("id", id).getSingleResult();
+        } catch (NoResultException e){
+            throw new ChatNotFoundException();
+        }
     }
 
     @Override
@@ -31,7 +37,7 @@ public class ChatDaoHibernateImpl implements ChatDao{
 
     @Override
     public void delete(int id) {
-        Chat chat = sessionFactory.getCurrentSession().find(Chat.class, id);
+        Chat chat = getSession().find(Chat.class, id);
         getSession().delete(chat);
     }
 
@@ -43,5 +49,4 @@ public class ChatDaoHibernateImpl implements ChatDao{
     private Session getSession() {
         return sessionFactory.getCurrentSession();
     }
-
 }

@@ -38,13 +38,14 @@ public class ChatController {
         return new ResponseEntity<>(chatDtoList, HttpStatus.OK);
     }
 
-    @PostMapping("/chats/{chatId}/members/{userId}")
+    @PostMapping("/chats/{chatId}/members")
     public ResponseEntity addUserToChat(
             @PathVariable("chatId") int chatId,
-            @PathVariable("userId") int userId){
-        chatUserService.saveUserToChat(userId, chatId);
+            @RequestHeader("Auth-Token") String token){
+        int userId = chatUserService.findUserByToken(token).getId();
+        if(!chatUserService.isMemberOfChat(userId, chatId)){
+            chatUserService.saveUserToChat(userId, chatId);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
-
-
 }

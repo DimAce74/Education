@@ -1,5 +1,8 @@
 package ru.itis.models;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "chat_user")
 public class ChatUser implements BaseModel, Serializable {
+
     @Id
     @Column(name = "id")
     @Access(AccessType.FIELD)
@@ -121,9 +125,10 @@ public class ChatUser implements BaseModel, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         ChatUser chatUser = (ChatUser) o;
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
 
         if (!getId().equals(chatUser.getId())) return false;
-        if (!getPassword().equals(chatUser.getPassword())) return false;
+        if (!encoder.matches(getPassword(), chatUser.getPassword())) return false;
         if (!getLogin().equals(chatUser.getLogin())) return false;
         if (!getName().equals(chatUser.getName())) return false;
         if (getChatList() != null ? !getChatList().equals(chatUser.getChatList()) : chatUser.getChatList() != null)

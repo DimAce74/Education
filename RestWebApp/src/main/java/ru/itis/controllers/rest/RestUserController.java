@@ -41,7 +41,7 @@ public class RestUserController {
             result.add(UserToUserDtoConverter.convertWithAuto(currentUser));
         }
 
-        return new ResponseEntity<List<UserDto>>(result, HttpStatus.CREATED);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value="/users/{userId}")

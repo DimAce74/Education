@@ -10,14 +10,18 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
+@EnableWebMvc
 @Configuration
 @ComponentScan("ru.itis")
 @EnableTransactionManagement
-public class SpringConfig {
+public class SpringConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -60,4 +64,12 @@ public class SpringConfig {
             container.setPort(8081);
         });
     }
+/**
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/static/**")
+                .addResourceLocations("/static/");
+    }
+    */
 }

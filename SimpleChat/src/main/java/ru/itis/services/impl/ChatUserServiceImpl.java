@@ -5,9 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.itis.converters.ChatUserToChatUserDtoConverter;
 import ru.itis.dao.ChatUserDao;
-import ru.itis.dto.ChatUserDto;
 import ru.itis.dto.UserDataForRegistrationDto;
 import ru.itis.exceptions.UserSigningException;
 import ru.itis.models.ChatUser;
@@ -54,16 +52,14 @@ public class ChatUserServiceImpl implements ChatUserService {
     }
 
     @Override
-    public ChatUserDto registerUser(UserDataForRegistrationDto userDataForRegistrationDto) {
+    public void registerUser(UserDataForRegistrationDto userDataForRegistrationDto) {
 
         ChatUser newUser = new ChatUser.Builder()
                 .login(userDataForRegistrationDto.getLogin())
                 .name(userDataForRegistrationDto.getName())
                 .password(encoder.encode(userDataForRegistrationDto.getPassword()))
                 .build();
-        int userId = chatUserDao.save(newUser);
-        ChatUser savedUser = chatUserDao.find(userId);
-        return ChatUserToChatUserDtoConverter.convertWithoutChat(savedUser);
+        chatUserDao.save(newUser);
     }
 
     @Override
@@ -104,5 +100,10 @@ public class ChatUserServiceImpl implements ChatUserService {
         ChatUser chatUser = findUserByToken(token);
         chatUser.getTokens().remove(token);
         save(chatUser);
+    }
+
+    @Override
+    public boolean isMemberOfChat(Integer userId, Integer chatId) {
+        return chatUserDao.isMemberOfChat(userId, chatId);
     }
 }
