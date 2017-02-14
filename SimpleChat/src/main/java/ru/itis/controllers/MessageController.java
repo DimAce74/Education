@@ -69,6 +69,14 @@ public class MessageController {
                     .map(MessageToMessageDtoConverter::convertWithoutChatWithChatUserName)
                     .sorted(Comparator.comparing(MessageDto::getId))
                     .collect(Collectors.toList());
+            if(result.size()>10){
+                List<MessageDto> lastResult = new ArrayList<>();
+                for (int i = result.size()-1; i>result.size()-11; i--){
+                    lastResult.add(result.get(i));
+                }
+                lastResult.sort(Comparator.comparing(MessageDto::getId));
+                result = lastResult;
+            }
             if(!result.isEmpty()) {
                 MessageDto lastMessageDto = result.stream()
                         .max(Comparator.comparing(MessageDto::getId)).get();
@@ -94,12 +102,8 @@ public class MessageController {
                 messageService.saveLastMessage(chatId, userId, lastMessageDto.getId());
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
-
-
-
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
 }

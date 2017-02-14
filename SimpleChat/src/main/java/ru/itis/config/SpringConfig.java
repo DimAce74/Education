@@ -64,12 +64,5 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
             container.setPort(8081);
         });
     }
-/**
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler("/static/**")
-                .addResourceLocations("/static/");
-    }
-    */
+
 }

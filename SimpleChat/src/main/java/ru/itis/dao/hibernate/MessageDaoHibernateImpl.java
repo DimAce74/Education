@@ -49,18 +49,24 @@ public class MessageDaoHibernateImpl implements MessageDao {
 
     @Override
     public List<Message> findNewMessages(Integer chatId, Integer userId){
-        try{
-            Integer messageId =(Integer) getSession().createNativeQuery("SELECT * FROM chat_member WHERE chat_id=? AND user_id=?")
+        try {
+            Integer messageId = (Integer) getSession().createNativeQuery("SELECT * FROM chat_member WHERE chat_id=? AND user_id=?")
                     .setParameter(1, chatId)
                     .setParameter(2, userId)
                     .addScalar("last_message_id", IntegerType.INSTANCE)
                     .getSingleResult();
-            Message lastMessage = find(messageId);
-            return getSession().createQuery("from Message where chat.id=:chatId and id > :messageId", Message.class)
-                    .setParameter("chatId", chatId)
-                    .setParameter("messageId", lastMessage.getId()).list();
+
+            if (messageId != null) {
+                Message lastMessage = find(messageId);
+                return getSession().createQuery("from Message where chat.id=:chatId and id > :messageId", Message.class)
+                        .setParameter("chatId", chatId)
+                        .setParameter("messageId", lastMessage.getId()).list();
+            } else {
+                return findAllByChatId(chatId);
+            }
         }catch (NoResultException e){
             return findAllByChatId(chatId);
+
         }
     }
 

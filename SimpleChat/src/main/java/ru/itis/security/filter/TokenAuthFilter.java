@@ -53,6 +53,7 @@ public class TokenAuthFilter extends GenericFilterBean {
                 || request.getRequestURI().endsWith("info")
                 || request.getRequestURI().endsWith("websocket")
                 || request.getRequestURI().endsWith("xhr_streaming")
+                || request.getRequestURI().endsWith("xhr_send")
                 || request.getRequestURI().endsWith("xhr")
                 || request.getRequestURI().startsWith("/login") && request.getMethod().equals("POST");
     }

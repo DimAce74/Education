@@ -64,9 +64,13 @@
         function start() {
         	showMenu(false);
         	showLogin();
-            if(stompClient != null) {
-                stompClient.disconnect();
-            }
+        	disconnect();
+        }
+
+        function disconnect() {
+        	    if(stompClient != null) {
+                	stompClient.disconnect();
+            	}
         }
 
         function logout() {
@@ -99,6 +103,7 @@
         }
 
         function enterToChat(chatId) {
+        	disconnect();
             $.ajax({
                 url: 'http://localhost:8081/chats/' + chatId + '/members',
                 type: 'POST',
@@ -138,7 +143,7 @@
                         $("#chatArea").append(data[i].userName+": "+data[i].text+"\n");                    }
                 }
             });
-            $("#sendMessage").click(function() {
+            $("#sendMessage").unbind("click").click(function() {
                 $.ajax({
                     url: 'http://localhost:8081/chats/' + chatId + '/messages',
                     type: 'POST',
@@ -152,7 +157,7 @@
                 });
                 $("#text").val('');
             });
-            $("#lastMessages").click(function () {
+            $("#lastMessages").unbind("click").click(function () {
                 $.ajax({
                     url: 'http://localhost:8081/chats/'+chatId+'/messages',
                     type: 'GET',
@@ -166,7 +171,7 @@
                     }
                 });
             });
-            $("#allMessages").click(function () {
+            $("#allMessages").unbind("click").click(function () {
                 $.ajax({
                     url: 'http://localhost:8081/chats/'+chatId+'/messages',
                     type: 'GET',

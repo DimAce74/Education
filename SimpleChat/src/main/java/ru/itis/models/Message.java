@@ -2,6 +2,7 @@ package ru.itis.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Iterator;
 
 @Entity
 @Table(name = "message")

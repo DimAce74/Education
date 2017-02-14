@@ -24,7 +24,7 @@ public class TestData {
             .id(SECOND_ENTITY_ID).name("Chat2").build();
     public static final Chat CHAT_WITHOUT_ID = new Chat.Builder().name("Chat3").build();
     public static final ChatUser USER_ONE = new ChatUser.Builder()
-            .id(FIRST_ENTITY_ID).login("One").name("Vasya").password(HASH_PASSWORD_ONE).build();
+            .id(FIRST_ENTITY_ID).login("Marsel").name("Marsel").password(HASH_PASSWORD_ONE).build();
     public static final ChatUser USER_WITHOUT_ID = new ChatUser.Builder()
             .login("Three").name("Petya").password(HASH_PASSWORD_TWO).build();
     public static final ChatUser USER_TWO = new ChatUser.Builder()
