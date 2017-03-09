@@ -22,7 +22,7 @@ public class DataSourceFactory {
     private DataSourceFactory () {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream("D:\\Development\\Education\\users-dao-project-best\\src\\main\\resources\\application.properties"));
+            properties.load(new FileInputStream("F:\\JavaLes\\Education\\users-dao-project-best\\src\\main\\resources\\application.properties"));
             String userDaoType = properties.getProperty("users.dao.type");
             if (userDaoType.equals("jdbc")) {
                 String url = properties.getProperty("url");

@@ -1,5 +1,7 @@
 package ru.itis.services;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import ru.itis.factories.DataSourceFactory;
 import ru.itis.models.Auto;
 import ru.itis.exceptions.UserNotFoundException;
 import ru.itis.models.User;
@@ -11,11 +13,18 @@ import java.util.List;
 public class UsersService {
     private UsersDao usersDao;
 
+    // language=SQL
+    private static final String SQL_USER_EXISTS ="SELECT * FROM group_user WHERE EXISTS (SELECT )";
+
+    private JdbcTemplate template = new JdbcTemplate(DataSourceFactory.getInstance().getDataSource());
+
     public UsersService(UsersDao usersDao) {
         this.usersDao = usersDao;
     }
 
     public String ShowNameUsersById(int i) {
+
+
         try{
             User user = usersDao.find(i);
             return user.getName();
