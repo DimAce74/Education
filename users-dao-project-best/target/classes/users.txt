@@ -1,0 +1,9 @@
+4	Misha	22
+6	Vasya	33
+1	Vitya	25
+5	Kostya	28
+2	Kostya	30
+7	Vika	18
+8	Kolya	44
+9	Petya	37
+10	Sanya	55

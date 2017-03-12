@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="auto_user@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.0">
+    <root id="1"/>
+    <database id="2" parent="1" name="auto_user">
+      <ObjectId>16393</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <schema id="3" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2017-01-05.08:45:52.614</IntrospectionTimestamp>
+      <IntrospectionStateNumber>554</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="4" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="5" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="6" parent="2" name="pg_temp_1">
+      <ObjectId>11848</ObjectId>
+    </schema>
+    <schema id="7" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11849</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="information_schema">
+      <ObjectId>12113</ObjectId>
+    </schema>
+    <sequence id="9" parent="3" name="auto_auto_id_seq">
+      <ObjectId>16405</ObjectId>
+      <StateNumber>547</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+    </sequence>
+    <sequence id="10" parent="3" name="group_user_id_seq">
+      <ObjectId>16394</ObjectId>
+      <StateNumber>545</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+    </sequence>
+    <table id="11" parent="3" name="auto">
+      <ObjectId>16407</ObjectId>
+      <StateNumber>554</StateNumber>
+    </table>
+    <table id="12" parent="3" name="group_user">
+      <ObjectId>16396</ObjectId>
+      <StateNumber>554</StateNumber>
+    </table>
+    <column id="13" parent="11" name="auto_id">
+      <Position>1</Position>
+      <DataType>bigint|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>547</StateNumber>
+      <DefaultExpression>nextval(&apos;auto_auto_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="14" parent="11" name="auto_model">
+      <Position>2</Position>
+      <DataType>varchar|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>547</StateNumber>
+    </column>
+    <column id="15" parent="11" name="auto_color">
+      <Position>3</Position>
+      <DataType>varchar|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>547</StateNumber>
+    </column>
+    <column id="16" parent="11" name="user_id">
+      <Position>4</Position>
+      <DataType>bigint|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>549</StateNumber>
+    </column>
+    <index id="17" parent="11" name="auto_pkey">
+      <ObjectId>16414</ObjectId>
+      <ColNames>auto_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="18" parent="11" name="auto_pkey">
+      <ObjectId>16415</ObjectId>
+      <ColNames>auto_id</ColNames>
+      <UnderlyingIndexName>auto_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="19" parent="11" name="auto_fkey">
+      <ObjectId>16428</ObjectId>
+      <ColNames>user_id</ColNames>
+      <RefTableName>group_user</RefTableName>
+      <RefKeyName>group_user_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="20" parent="12" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>545</StateNumber>
+      <DefaultExpression>nextval(&apos;group_user_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="21" parent="12" name="user_name">
+      <Position>2</Position>
+      <DataType>varchar|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>546</StateNumber>
+    </column>
+    <column id="22" parent="12" name="user_age">
+      <Position>3</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>546</StateNumber>
+    </column>
+    <index id="23" parent="12" name="group_user_pkey">
+      <ObjectId>16400</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="24" parent="12" name="group_user_pkey">
+      <ObjectId>16401</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>group_user_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>
