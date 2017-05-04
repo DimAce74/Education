@@ -70,10 +70,6 @@ public class Chat implements BaseModel, Serializable {
 
     public List<ChatUser> getChatUserList(){return chatUserList;}
 
-    //public void addChatUser (ChatUser chatUser) {
-    //    this.getChatUserList().add(chatUser);
-    //}
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
