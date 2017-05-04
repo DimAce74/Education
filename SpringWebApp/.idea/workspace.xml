@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ffc29107-d0f0-412a-a355-7134c69a6d25" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/controllers/AutoController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/controllers/UsersController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/services/AutoService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/services/UsersService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/views/showAuto.scala.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/views/showUsers.scala.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../SimplePlayApp/app/controllers/Application.scala" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../SimplePlayApp/app/views/main.scala.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../SimplePlayApp/conf/META-INF/persistence.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/app/dao/AutoDaoImpl.java" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/dao/AutoDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/app/dao/UserDaoImpl.java" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/dao/UserDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/app/models/User.java" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/models/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/app/views/index.scala.html" afterPath="$PROJECT_DIR$/../SimplePlayApp/app/views/index.scala.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/build.sbt" afterPath="$PROJECT_DIR$/../SimplePlayApp/build.sbt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/conf/application.conf" afterPath="$PROJECT_DIR$/../SimplePlayApp/conf/application.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/conf/routes" afterPath="$PROJECT_DIR$/../SimplePlayApp/conf/routes" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/project/build.properties" afterPath="$PROJECT_DIR$/../SimplePlayApp/project/build.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SimplePlayApp/project/plugins.sbt" afterPath="$PROJECT_DIR$/../SimplePlayApp/project/plugins.sbt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../play-java-starter-example/play-java-starter-example/app/filters/ExampleFilter.java" afterPath="$PROJECT_DIR$/../play-java-starter-example/play-java-starter-example/app/filters/ExampleFilter.java" />
-    </list>
+    <list default="true" id="ffc29107-d0f0-412a-a355-7134c69a6d25" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -420,7 +399,7 @@
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/pom.xml" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../play-authenticate/samples/java/play-authenticate-usage/build.sbt" />
     <property name="js.eslint.eslintPackage" value="" />
   </component>
   <component name="RunManager">
@@ -745,15 +724,15 @@
       <workItem from="1493709433032" duration="3869000" />
       <workItem from="1493717219734" duration="1072000" />
       <workItem from="1493817338477" duration="972000" />
-      <workItem from="1493873177735" duration="1776000" />
+      <workItem from="1493873177735" duration="1991000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7689000" />
+    <option name="totallyTimeSpent" value="7904000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1448" height="864" extended-state="1" />
+    <frame x="-4" y="-4" width="1448" height="864" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
