@@ -36,6 +36,7 @@ public class ExampleFilter extends Filter {
         Function<RequestHeader, CompletionStage<Result>> next,
         RequestHeader requestHeader) {
 
+        next.apply(request : RequestHeader)
         return next.apply(requestHeader).thenApplyAsync(
             result -> result.withHeader("X-ExampleFilter", "foo"),
             exec

@@ -1,0 +1,41 @@
+@(user: User, autos: List[Auto])
+<html>
+    <head>
+        <title>Автомобили </title>
+    </head>
+    <body>
+        <h3>Вы в системе под именем </h3>
+        @if(user == null){
+            <h1>Все автомобили</h1>
+        }else {
+            <h1>Автомобили пользователя @user.getName</h1>
+        }
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Модель</th>
+                <th>Действия</th>
+            </tr>
+            @for(auto <- autos){
+                <tr>
+                    <td>@auto.getId</td>
+                    <td>@auto.getModel</td>
+                    <td>
+                        <form action="/users/@auto.getUser.getId/autos/delete/@auto.getId" method="post">
+                            <input type="submit" value="Удалить" style="float:left">
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+        @if(user != null) {
+            <form action="/users/@user.getId/autos" method="post">
+                <input type="text" name="model" />
+                <button>Добавить"</button>
+            </form>
+        }
+        <br>
+        <a href="/users">Назад</a>
+        <a href="/index">На главную</a>
+    </body>
+</html>

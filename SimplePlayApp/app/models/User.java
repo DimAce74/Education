@@ -17,7 +17,7 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Auto> listAuto;
 
     public User() {

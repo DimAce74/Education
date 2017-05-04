@@ -1,0 +1,42 @@
+@(users: List[User])
+@*
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+*@
+<html>
+    <head>
+        <title>Show users</title>
+    </head>
+    <body>
+        <h3>Вы в системе под именем </h3>
+
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Действия</th>
+            </tr>
+            @for(user <- users){
+                <tr>
+                    <td>@user.getId</td>
+                    <td>@user.getName</td>
+                    <td>
+                        <form action="/users/@user.getId/autos">
+                            <input type="submit" value="Показать автомобили" style="float:left">
+                        </form>
+                        <form action="/users/delete/@user.getId" method="post">
+                            <input type="submit" value="Удалить" style="float:left">
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </table>
+        <form action="@routes.UsersController.addUser()" method="post">
+            <input type="text" name="name" />
+            <button>Добавить</button>
+        </form>
+
+        <a href="/index">На главную</a>
+
+    </body>
+</html>
