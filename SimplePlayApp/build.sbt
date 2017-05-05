@@ -11,8 +11,7 @@ libraryDependencies ++= Seq(
   cache ,
   ws   ,
   specs2 % Test,
-  "be.objectify"  %% "deadbolt-java"     % "2.5.0",
-  "com.feth"      %% "play-authenticate" % "0.8.3",
+  "be.objectify"  %% "deadbolt-java"     % "2.5.4",
   "org.postgresql" % "postgresql" % "42.0.0"
 )
 
