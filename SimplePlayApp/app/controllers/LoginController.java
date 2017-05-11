@@ -3,11 +3,9 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-import securesocial.core.java.SecuredAction;
 
 public class LoginController extends Controller {
 
-    @SecuredAction
     public Result index(){
         return ok(views.html.index.render());
     }
@@ -16,7 +14,6 @@ public class LoginController extends Controller {
     //    return ok(views.html.login.render());
     //}
 
-    @SecuredAction
     public Result loginToIndex(){
         return index();
     }

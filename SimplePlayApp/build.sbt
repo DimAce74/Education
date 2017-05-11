@@ -12,7 +12,8 @@ libraryDependencies ++= Seq(
   ws   ,
   specs2 % Test,
   "be.objectify"  %% "deadbolt-java"     % "2.5.4",
-  "org.postgresql" % "postgresql" % "42.0.0"
+  "org.postgresql" % "postgresql" % "42.0.0",
+  "com.typesafe.akka" % "akka-remote_2.11" % "2.5.1"
 )
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
