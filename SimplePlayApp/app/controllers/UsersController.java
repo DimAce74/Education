@@ -1,5 +1,10 @@
 package controllers;
 
+import actors.LookupActor;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+import com.typesafe.config.ConfigFactory;
 import models.User;
 import play.data.FormFactory;
 import play.mvc.Controller;
@@ -16,9 +21,16 @@ public class UsersController extends Controller{
     @Inject
     private FormFactory formFactory;
 
+    private ActorSystem system = ActorSystem.create("lookup", ConfigFactory.load("lookup"));
+    private String path = "akka.tcp://message@localhost:9001/user/message-actor";
+
+    final ActorRef actor = system.actorOf(Props.create(LookupActor.class, path), "lookupActor");
+
     public Result getUsers() {
+
         List<User> userList = usersService.findAllUsers();
-        User user = new User();
+        System.out.println(actor);
+        actor.tell("Получение списка пользователей", null);
         return ok(views.html.showUsers.render(userList));
     }
 

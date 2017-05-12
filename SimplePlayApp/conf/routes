@@ -6,11 +6,11 @@
 GET     /                           controllers.LoginController.index
 GET     /index                           controllers.LoginController.index
 
-GET /login controllers.LoginController.login()
+#GET /login controllers.LoginController.login()
 
 POST /login controllers.LoginController.loginToIndex()
 
-POST /logout controllers.LoginController.logout()
+#POST /logout controllers.LoginController.logout()
 
 GET /users  controllers.UsersController.getUsers()
 

@@ -1,5 +1,3 @@
-# --- Created by Ebean DDL
-# To stop Ebean DDL generation, remove this comment and start using Evolutions
 
 # --- !Ups
 
@@ -8,6 +6,12 @@ create table autos (
   model                         varchar(255),
   user_id                       integer,
   constraint pk_autos primary key (auto_id)
+);
+
+create table security_role (
+  id                            bigserial not null,
+  role_name                     varchar(255),
+  constraint pk_security_role primary key (id)
 );
 
 create table users (
@@ -26,6 +30,8 @@ alter table if exists autos drop constraint if exists fk_autos_user_id;
 drop index if exists ix_autos_user_id;
 
 drop table if exists autos cascade;
+
+drop table if exists security_role cascade;
 
 drop table if exists users cascade;
 
