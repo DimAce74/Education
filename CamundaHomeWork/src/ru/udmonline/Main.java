@@ -1,6 +1,7 @@
 package ru.udmonline;
 
 import org.camunda.bpm.engine.*;
+import org.camunda.bpm.engine.repository.Deployment;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
@@ -41,11 +42,17 @@ public class Main {
                 System.exit(0);
         }
         repositoryService = processEngine.getRepositoryService();
-        runtimeService = processEngine.getRuntimeService();
         taskService = processEngine.getTaskService();
         modelInstance = Bpmn.readModelFromFile(new File(pathToBpmn));
-        repositoryService.createDeployment().addModelInstance("test_PT", modelInstance).deploy();
+        String deploymentId=repositoryService.createDeployment().addModelInstance("test_PT", modelInstance).deploy().getId();
+
+
         repositoryService.activateProcessDefinitionById("Process_1");
+        runtimeService = processEngine.getRuntimeService();
+
+
+        System.out.println(repositoryService.createDeploymentQuery().list());
+        System.out.println(repositoryService.createProcessDefinitionQuery()..deploymentId(deploymentId).list());
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Process_1");
     }
 }

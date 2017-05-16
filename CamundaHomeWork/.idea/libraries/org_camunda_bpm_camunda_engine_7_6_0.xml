@@ -63,6 +63,8 @@
       <root url="jar://$MAVEN_REPOSITORY$/org/jruby/jruby-complete/1.7.12/jruby-complete-1.7.12.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ideaLibSources/camunda-engine-7.6.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
