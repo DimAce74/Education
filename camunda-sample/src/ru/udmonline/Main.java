@@ -1,6 +1,7 @@
 package ru.udmonline;
 
 import org.camunda.bpm.engine.*;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
@@ -14,39 +15,25 @@ public class Main {
     public static void main(String[] args) {
 
         ProcessEngine processEngine = getProcessEngine(args[0]);
-        String parhToBpmn = args[1];
-        BpmnModelInstance modelInstance = getModelInstance(parhToBpmn);
+        String pathToBpmn = args[1];
+        BpmnModelInstance modelInstance = getModelInstance(pathToBpmn);
         RepositoryService repositoryService = processEngine.getRepositoryService();
-        repositoryService.activateProcessDefinitionById("test_process");
-        repositoryService.createDeployment().addModelInstance("test_PT.bpmn", modelInstance).deploy();
+        List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery().list();
+        if (processDefinitions.isEmpty()){
+            repositoryService.createDeployment().addModelInstance("test_PT.bpmn", modelInstance).deploy();
+        }
         RuntimeService runtimeService = processEngine.getRuntimeService();
-        System.out.println(repositoryService.createProcessDefinitionQuery().list());
-
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("test_process");
-        //ActivityInstance activityInstance = runtimeService.getActivityInstance(processInstance.getProcessInstanceId());
-        //System.out.println(activityInstance);
-
-        //runtimeService.createProcessInstanceModification(processInstance.getId())
-        //        .startBeforeActivity()
-        //runtimeService.createProcessInstanceModification(processInstance.getId())
-        //        .startBeforeActivity("ExclusiveGateway_1na8m9a")
-         //       .setVariable("var1", "1")
-         //       .execute();
         TaskService taskService = processEngine.getTaskService();
-        List<Task> activeTasks = null;
+        List<Task> activeTasks;
         while (true){
             activeTasks = taskService.createTaskQuery().active().processInstanceId(processInstance.getProcessInstanceId()).list();
-            System.out.println(activeTasks);
             if (!activeTasks.isEmpty()) {
                 for (Task activeTask : activeTasks) {
-                    System.out.println("Начало этапа " + activeTask.getName() + " id " + activeTask.getId());
+                    System.out.println("Этап " + activeTask.getName() + " начат");
                     if (activeTask.getName().equals("Stage3")) {
-
                         taskService.setVariable(activeTask.getId(), "var1", "2");
-                        //variables.put("var1", "1");
                     }
-                    System.out.println(taskService.getVariables(activeTask.getId()));
-
                     taskService.complete(activeTask.getId());
                     System.out.println("Этап " + activeTask.getName() + " завершен");
                 }
@@ -54,21 +41,7 @@ public class Main {
                 break;
             }
         }
-
-
-/*
-        activityInstance = runtimeService.getActivityInstance(processInstance.getProcessInstanceId());
-        System.out.println(activityInstance);
-
-
-        Collection<FlowNode> flowNodes = modelInstance.getModelElementsByType(FlowNode.class);
-        for (FlowNode flowNode : flowNodes) {
-            System.out.println(flowNode.getId());
-
-        }
-        Activity task = modelInstance.getModelElementById("Task_0kpcca1");
-        System.out.println(task.getName());
-*/
+        System.out.println("Все этапы завершены!");
     }
 
     private static ProcessEngine getProcessEngine(String arg) {
