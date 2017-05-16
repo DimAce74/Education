@@ -10,5 +10,14 @@
       <user-name>postgres</user-name>
       <resolve-scope>camunda:postgres,public</resolve-scope>
     </data-source>
+    <data-source name="camunda@localhost" uuid="4eae9414-10fb-44c4-b745-4d91736329ee">
+      <database-info product="PostgreSQL" version="9.6.2" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4.1212">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <resolve-scope>camunda:postgres,public</resolve-scope>
+    </data-source>
   </component>
 </project>

@@ -8,9 +8,21 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="org.postgresql:postgresql:42.1.1" level="project" />
-    <orderEntry type="library" name="org.camunda.bpm.model:camunda-bpmn-model:7.6.0" level="project" />
-    <orderEntry type="library" name="org.camunda.bpm:camunda-engine:7.6.0" level="project" />
-    <orderEntry type="library" name="org.slf4j:slf4j-nop:1.7.21" level="project" />
+    <orderEntry type="library" name="camunda-engine-7.6.0" level="project" />
+    <orderEntry type="library" name="camunda-bpmn-model-7.6.0" level="project" />
+    <orderEntry type="library" name="camunda-dmn-model-7.6.0" level="project" />
+    <orderEntry type="library" name="camunda-cmmn-model-7.6.0" level="project" />
+    <orderEntry type="library" name="mybatis-3.2.8" level="project" />
+    <orderEntry type="library" name="camunda-commons-utils-1.4.0" level="project" />
+    <orderEntry type="library" name="camunda-xml-model-7.6.0" level="project" />
+    <orderEntry type="library" name="postgresql-42.1.1" level="project" />
+    <orderEntry type="library" name="camunda-commons-typed-values-1.4.0" level="project" />
+    <orderEntry type="library" name="camunda-engine-dmn-7.6.0" level="project" />
+    <orderEntry type="library" name="camunda-commons-logging-1.4.0" level="project" />
+    <orderEntry type="library" name="slf4j-api-1.7.21" level="project" />
+    <orderEntry type="library" name="slf4j-nop-1.7.21" level="project" />
+    <orderEntry type="library" name="camunda-engine-feel-api-7.6.0" level="project" />
+    <orderEntry type="library" name="camunda-engine-feel-juel-7.6.0" level="project" />
+    <orderEntry type="library" name="joda-time-2.1" level="project" />
   </component>
 </module>

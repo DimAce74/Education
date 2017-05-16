@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="camunda-engine-dmn-7.6.0">
+    <CLASSES>
+      <root url="jar://C:/lib/camunda-engine-dmn-7.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

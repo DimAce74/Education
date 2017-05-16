@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/camunda_1</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="camunda@localhost" uuid="4eae9414-10fb-44c4-b745-4d91736329ee">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/camunda</jdbc-url>
+    </data-source>
   </component>
 </project>
