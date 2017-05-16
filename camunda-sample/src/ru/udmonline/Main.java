@@ -1,32 +1,21 @@
 package ru.udmonline;
 
 import org.camunda.bpm.engine.*;
-import org.camunda.bpm.engine.runtime.ActivityInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
+import java.util.List;
 
 public class Main {
 
-    private static final String PATH_TO_BPMN_MODEL = "C:/repo/Education/camunda-sample/resources/test_PT.bpmn";
-
     public static void main(String[] args) {
-        System.out.println("Нужно журналирование? 1)Да, 2)Нет");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int choice=2;
-       /*
-        try {
-            choice = Integer.parseInt(reader.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-        ProcessEngine processEngine = getProcessEngine(choice);
-        BpmnModelInstance modelInstance = getModelInstance(PATH_TO_BPMN_MODEL);
+
+        ProcessEngine processEngine = getProcessEngine(args[0]);
+        String parhToBpmn = args[1];
+        BpmnModelInstance modelInstance = getModelInstance(parhToBpmn);
         RepositoryService repositoryService = processEngine.getRepositoryService();
         repositoryService.activateProcessDefinitionById("test_process");
         repositoryService.createDeployment().addModelInstance("test_PT.bpmn", modelInstance).deploy();
@@ -34,11 +23,44 @@ public class Main {
         System.out.println(repositoryService.createProcessDefinitionQuery().list());
 
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("test_process");
-        ActivityInstance activityInstance = runtimeService.getActivityInstance(processInstance.getProcessInstanceId());
+        //ActivityInstance activityInstance = runtimeService.getActivityInstance(processInstance.getProcessInstanceId());
+        //System.out.println(activityInstance);
+
+        //runtimeService.createProcessInstanceModification(processInstance.getId())
+        //        .startBeforeActivity()
+        //runtimeService.createProcessInstanceModification(processInstance.getId())
+        //        .startBeforeActivity("ExclusiveGateway_1na8m9a")
+         //       .setVariable("var1", "1")
+         //       .execute();
+        TaskService taskService = processEngine.getTaskService();
+        List<Task> activeTasks = null;
+        while (true){
+            activeTasks = taskService.createTaskQuery().active().processInstanceId(processInstance.getProcessInstanceId()).list();
+            System.out.println(activeTasks);
+            if (!activeTasks.isEmpty()) {
+                for (Task activeTask : activeTasks) {
+                    System.out.println("Начало этапа " + activeTask.getName() + " id " + activeTask.getId());
+                    if (activeTask.getName().equals("Stage3")) {
+
+                        taskService.setVariable(activeTask.getId(), "var1", "2");
+                        //variables.put("var1", "1");
+                    }
+                    System.out.println(taskService.getVariables(activeTask.getId()));
+
+                    taskService.complete(activeTask.getId());
+                    System.out.println("Этап " + activeTask.getName() + " завершен");
+                }
+            }else{
+                break;
+            }
+        }
+
+
+/*
+        activityInstance = runtimeService.getActivityInstance(processInstance.getProcessInstanceId());
         System.out.println(activityInstance);
-        ManagementService managementService = processEngine.getManagementService();
-        managementService.
-        /*
+
+
         Collection<FlowNode> flowNodes = modelInstance.getModelElementsByType(FlowNode.class);
         for (FlowNode flowNode : flowNodes) {
             System.out.println(flowNode.getId());
@@ -49,17 +71,20 @@ public class Main {
 */
     }
 
-    private static ProcessEngine getProcessEngine(int choice) {
+    private static ProcessEngine getProcessEngine(String arg) {
         ProcessEngineConfiguration configuration = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
                 .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
-                .setJdbcUrl("jdbc:postgresql://localhost:5432/camunda")
+                .setJdbcUrl("jdbc:postgresql://localhost:5432/camunda_1")
                 .setJdbcUsername("postgres")
                 .setJdbcPassword("db2admin")
                 .setJdbcDriver("org.postgresql.Driver");
-        if (choice == 1) {
+        if (arg.equals("yes")) {
             configuration.setHistory(ProcessEngineConfiguration.HISTORY_FULL);
-        }else{
+        }else if (arg.equals("no")){
             configuration.setHistory(ProcessEngineConfiguration.HISTORY_NONE);
+        }else{
+            System.out.println("Неверный первый аргумент");
+            System.exit(0);
         }
         return configuration.buildProcessEngine();
     }

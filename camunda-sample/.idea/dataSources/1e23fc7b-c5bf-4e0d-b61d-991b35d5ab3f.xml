@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="camunda@localhost">
+<dataSource name="camunda_1@localhost">
   <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.0">
     <root id="1"/>
-    <database id="2" parent="1" name="camunda">
-      <ObjectId>16529</ObjectId>
+    <database id="2" parent="1" name="camunda_1">
+      <ObjectId>18743</ObjectId>
       <Current>1</Current>
       <Visible>1</Visible>
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-05-15.17:23:57.259</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2017-05-16.11:50:17.252</IntrospectionTimestamp>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
